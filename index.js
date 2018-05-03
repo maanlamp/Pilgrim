@@ -6,18 +6,15 @@ const { app, BrowserWindow } = electron;
 
 app.on("ready", () => {
 	const mainWindow = new BrowserWindow({
-		frame: false,
-		transparent: true
+		transparent: true,
+		frame: false
 	});
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, "index.html"),
 		protocol: "file:",
 		slashes: true
 	}));
-	mainWindow.on("notifyWindowsSizeChange", e => {
-		console.log(e);
-	});
 
-	mainWindow.setMenu(null);
-	mainWindow.webContents.openDevTools();
+	//mainWindow.setMenu(null);
+	//mainWindow.webContents.openDevTools();
 });

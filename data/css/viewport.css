@@ -1,7 +1,6 @@
 #viewport {
 	background: white;
-	margin-top: 4rem;
 	width: 100%;
-	height: calc(100vh - 4rem);
-	border-radius: 0 0 4px 4px;
+	height: calc(100% - 4.5rem);
+	border-radius: 0 0 var(--windowBorderRadius) var(--windowBorderRadius);
 }

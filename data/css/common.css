@@ -1,11 +1,19 @@
+:root {
+	--windowBorderRadius: 6px;
+	--window-border-radius: var(--windowBorderRadius);
+	font-size: 14px;
+}
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
-html {
+body {
 	font-family: "Segoe UI", sans-serif;
+	height: 100vh;
+	overflow: hidden;
 }
 
 ol, ul {
@@ -14,4 +22,8 @@ ol, ul {
 
 .fullWidthUItem {
 	width: 100%;
+}
+
+:focus {
+	outline: none;
 }

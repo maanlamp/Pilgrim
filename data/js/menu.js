@@ -9,4 +9,5 @@ menuItems.forEach((menuItem, i) => {
 	rest.textContent = temp.slice(1).toLowerCase();
 	rest.classList.add("menuItemRest");
 	[firstLetter, rest].forEach(div => menuItem.appendChild(div));
+	menuItem.setAttribute("tabindex", 0);
 });

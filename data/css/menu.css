@@ -1,10 +1,6 @@
 #menu {
 	background-color: #F9F9F9;
 	color: black;
-	position: absolute;
-	top: 2.25rem;
-	left: 0;
-	right: 0;
 	display: flex;
 	padding: 0 .5rem;
 	user-select: none;
