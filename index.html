@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./data/css/common.css">
+	<link rel="stylesheet" href="./data/css/titlebar.css">
+	<link rel="stylesheet" href="./data/css/menu.css">
+	<link rel="stylesheet" href="./data/css/viewport.css">
+	<title>File Browser</title>
+</head>
+<body>
+	<header id="titlebar" class="fullWidthUItem">
+		<h1 id="title">File Browser</h1>
+		<div id="titlebarButtons">
+			<div class="titlebarButtonWrapper" id="minimise" title="Minimise window">
+				<button> - </button>
+			</div>
+			<div class="titlebarButtonWrapper" id="maximise" title="Maximise window">
+				<button> [] </button>
+			</div>
+			<div class="titlebarButtonWrapper" id="close" title="Close window">
+				<button> x </button>
+			</div>
+		</div>
+	</header>
+	<ul id="menu">
+		<li class="menuItem">File</li>
+		<li class="menuItem">Edit</li>
+		<li class="menuItem">Other Item</li>
+		<li class="menuItem">Weird shit</li>
+	</ul>
+	<main id="viewport"></main>
+	<script src="./data/js/titlebar.js"></script>
+	<script src="./data/js/menu.js"></script>
+</body>
+</html>

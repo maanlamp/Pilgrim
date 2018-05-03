@@ -1,0 +1,17 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-family: "Segoe UI", sans-serif;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+.fullWidthUItem {
+	width: 100%;
+}

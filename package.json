@@ -1,0 +1,20 @@
+{
+  "name": "filebrowser",
+  "version": "1.0.0",
+  "description": "A file browser made in Electron and NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maanlamp/filebrowser.git"
+  },
+  "author": "maanlamp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maanlamp/filebrowser/issues"
+  },
+  "homepage": "https://github.com/maanlamp/filebrowser#readme",
+  "dependencies": {}
+}
