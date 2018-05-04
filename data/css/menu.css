@@ -1,20 +1,23 @@
 #menu {
-	background-color: #F9F9F9;
+	background-color: rgba(43, 49, 62, 1);
 	color: black;
 	display: flex;
 	padding: 0 .5rem;
 	user-select: none;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	-webkit-app-region: no-drag;
 }
 
 #menu>.menuItem {
 	cursor: pointer;
-	padding: .25rem;
-	padding-left: .5rem;
-	padding-right: .5rem;
+	padding: .5rem;
+	color: white;
 }
 
 #menu>.menuItem:hover {
-	background-color: green;
+	background-color: rgba(255, 255, 255, .1);
 }
 
 #menu>.menuItem>* {
@@ -22,9 +25,9 @@
 }
 
 #menu>.menuItem>.menuItemFirstLetter {
-	color: red;
+	text-decoration: underline;
 }
 
 #menu>.menuItem>.menuItemRest {
-	color: blue;
+	color: currentColor;
 }

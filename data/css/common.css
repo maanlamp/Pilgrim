@@ -1,5 +1,5 @@
 :root {
-	--windowBorderRadius: 6px;
+	--windowBorderRadius: 8px;
 	--window-border-radius: var(--windowBorderRadius);
 	font-size: 14px;
 }
@@ -10,17 +10,12 @@
 	box-sizing: border-box;
 }
 
-body {
-	font-family: "Segoe UI", sans-serif;
-	height: 100vh;
-	overflow: hidden;
-}
-
 ol, ul {
 	list-style: none;
 }
 
 .fullWidthUItem {
+	display: block;
 	width: 100%;
 }
 

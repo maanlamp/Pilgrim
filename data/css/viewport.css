@@ -1,6 +1,10 @@
 #viewport {
-	background: white;
+	background: #F9F9F9;
 	width: 100%;
-	height: calc(100% - 4.5rem);
+	height: calc(100% - var(--windowTitlebarHeight));
+	overflow-y: auto;
+}
+
+#appContainer:not(.fullscreen) #viewport {
 	border-radius: 0 0 var(--windowBorderRadius) var(--windowBorderRadius);
 }

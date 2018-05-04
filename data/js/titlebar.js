@@ -1,22 +1,29 @@
-const { remote } = require("electron");
+const electron = require("electron");
+const { remote } = electron;
+const { BrowserWindow } = remote;
+const display = electron.screen;
 
 document.querySelector("#minimise").addEventListener("click", () => {
-	const window = remote.getCurrentWindow();
-	window.minimize();
+	const remoteWindow = remote.getCurrentWindow();
+	remoteWindow.minimize();
 });
 
 document.querySelector("#maximise").addEventListener("click", () => {
-	const window = remote.getCurrentWindow();
-	console.log(window.isMaximized(), window.isFullScreen());
-	document.querySelector("#titlebar").classList.toggle("fullscreen");
-	if (window.isMaximized()) {
-		window.unmaximize();
+	const remoteWindow = remote.getCurrentWindow();
+	const appContainer = document.querySelector("#appContainer");
+	const html = document.querySelector("html");
+	appContainer.classList.toggle("fullscreen");
+	html.classList.toggle("fullscreen");
+	if (appContainer.classList.contains("fullscreen")) {
+		remoteWindow.maximize();
 	} else {
-		window.maximize();
+		remoteWindow.setSize(680, 420);
+		
 	}
+	remoteWindow.center();
 });
 
 document.querySelector("#close").addEventListener("click", () => {
-	const window = remote.getCurrentWindow();
-	window.close();
+	const remoteWindow = remote.getCurrentWindow();
+	remoteWindow.close();
 });

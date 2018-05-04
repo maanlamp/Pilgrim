@@ -1,5 +1,10 @@
+:root {
+	--windowTitlebarHeight: 5rem;
+	--window-titlebar-height: var(--windowTitlebarHeight);
+}
+
 #titlebar {
-	background-color: rgba(15, 15, 30, 1);
+	background-color: rgba(53, 59, 72, 1);
 	color: rgb(200, 200, 200);
 	display: flex;
 	justify-content: space-between;
@@ -7,18 +12,26 @@
 	-webkit-app-region: drag;
 	overflow: hidden;
 	position: relative;
+	height: var(--windowTitlebarHeight);
 }
 
-#titlebar:not(.fullscreen) {
+#appContainer:not(.fullscreen) #titlebar {
 	border-radius: var(--windowBorderRadius) var(--windowBorderRadius) 0 0;
-	background-color: rgba(15, 15, 30, .75);
+	background-color: rgba(53, 59, 72, .8);
+}
+
+#titlebar>#titlebarIcon {
+	width: 1.5rem;
+	height: 1.5rem;
+	margin: .5rem;
+	filter: invert(1);
 }
 
 #titlebar>#title {
 	font-size: 1rem;
 	font-weight: 500;
 	cursor: default;
-	padding: .5rem 1rem;
+	padding: .5rem 1rem .5rem 0;
 	width: 100vw;
 }
 
@@ -35,14 +48,14 @@
 	height: 2.25rem;
 	width: 1.75rem;
 	-webkit-app-region: no-drag;
-	opacity: .25;
+	opacity: .8;
 	background: url("../images/button.png") no-repeat center center;
 	background-size: 100%;
 	transition: all .1s ease;
 }
 
 #titlebar>#titlebarButtons>button:hover {
-	opacity: .5;
+	opacity: 1;
 	padding: .75rem;
 }
 
@@ -54,6 +67,10 @@
 #titlebar>#titlebarButtons>#maximise:hover {
 	background: url("../images/maximise.png") no-repeat center center;
 	background-size: 60%;
+}
+
+#titlebar>#titlebarButtons>#close {
+	margin-right: .25rem;
 }
 
 #titlebar>#titlebarButtons>#close:hover {
