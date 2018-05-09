@@ -38,6 +38,36 @@
 	background-color: rgba(0, 0, 0, .1);
 }
 
+@keyframes forward {
+	40% {
+		background-position-x: 200%;
+	} 45% {
+		opacity: 0;	
+	} 50% {
+		background-position-x: -200%;
+		opacity: 0;	
+	} 55% {
+		opacity: 1;	
+	} 100% {
+		background-position-x: center;
+	}
+}
+
+@keyframes back {
+	40% {
+		background-position-x: -200%;
+	} 45% {
+		opacity: 0;	
+	} 50% {
+		background-position-x: 200%;
+		opacity: 0;	
+	} 55% {
+		opacity: 1;	
+	} 100% {
+		background-position-x: center;
+	}
+}
+
 #search>#searchButtons>#back {
 	background-image: url("../images/back.png");
 	background-repeat: no-repeat;
@@ -74,6 +104,21 @@
 	background-position: center center;
 	background-size: 75%;
 	transform-origin: center center;
+}
+
+@keyframes dirUp {
+	40% {
+		background-position-y: -200%;
+	} 45% {
+		opacity: 0;	
+	} 50% {
+		background-position-y: 200%;
+		opacity: 0;	
+	} 55% {
+		opacity: 1;	
+	} 100% {
+		background-position-y: center;
+	}
 }
 
 #search>#searchButtons>#dirUp {
