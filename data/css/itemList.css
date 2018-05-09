@@ -1,17 +1,27 @@
 #itemList {
 	overflow-y: auto;
 	width: calc(100% - 12.75rem);
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #itemList>li {
 	margin: 1rem;
-	background-color: white;
-	border-radius: 4px;
-	box-shadow: 0 .1rem .25rem 0 rgba(0, 0, 0, .1);
+	padding: 2rem 1rem 1rem 1rem;
+	background-color: none;
+	border-radius: .25rem;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	position: relative;
 	cursor: pointer;
+	width: 15rem;
+	height: 15rem;
+}
+
+#itemList>li:hover,
+#itemList>li:focus {
+	background: rgba(255, 0, 0, .1);
 }
 
 li>figure {
