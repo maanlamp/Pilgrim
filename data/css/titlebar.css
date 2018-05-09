@@ -68,15 +68,15 @@
 #titlebar>#titlebarButtons {
 	display: flex;
 	position: absolute;
-	top: 0;
+	top: .65rem;
 	right: 0;
 	filter: invert(1);
 }
 
 #titlebar>#titlebarButtons>button {
 	border: none;
-	height: 2.25rem;
-	width: 1.75rem;
+	height: 2rem;
+	width: 2rem;
 	-webkit-app-region: no-drag;
 	opacity: .8;
 	background: url("../images/button.png") no-repeat center center;
