@@ -1,20 +1,46 @@
+#itemList {
+	overflow-y: auto;
+	width: calc(100% - 12.75rem);
+}
+
 #itemList>li {
 	margin: 1rem;
 	background-color: white;
 	border-radius: 4px;
 	box-shadow: 0 .1rem .25rem 0 rgba(0, 0, 0, .1);
 	display: flex;
+	align-items: center;
 	position: relative;
+	cursor: pointer;
 }
 
-#itemList>li:first-of-type {
-	margin-top: 0;
+li>figure {
+	perspective: 1px;
 }
 
-#itemList>li>a {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+li>figure>svg {
+	width: 4rem;
+}
+
+li>figure>svg>path {
+	transition: all .1s ease-out;
+	transform-origin: bottom;
+}
+
+li:hover>figure>svg>path:first-of-type {
+	transform: rotateX(-15deg) perspective(1px);
+}
+
+li:hover>figure>svg>path:last-of-type {
+	transform: rotateX(50deg) perspective(1px);
+}
+
+#itemList::-webkit-scrollbar {
+	background: rgba(var(--windowTitlebarColour), .1);
+	border-radius: 0 0 calc(var(--windowBorderRadius) - 2px) 0;
+}
+
+#itemList::-webkit-scrollbar-thumb {
+	background: rgba(var(--windowTitlebarColour), 1);
+	border-radius: 0 0 var(--scrollbarBorderRadius) 0;
 }

@@ -1,8 +1,95 @@
 #search {
+	position: absolute;
+	top: 3.25rem;
+	left: 0;
+	width: 100%;
+	background: rgb(var(--windowTitlebarColourLight));
 	padding: 1rem;
+	display: flex;
+	flex-wrap: nowrap;
+	-webkit-app-region: no-drag;
+}
+
+#search>#searchButtons {
+	width: 12rem;
+	margin: -1rem 0;
+	display: flex;
+	align-items: center;
+}
+
+#search>#searchButtons>button {
+	width: 2.5rem;
+	height: 2.5rem;
+	margin: .125rem;
 	border: none;
-	width: calc(100% - 2rem);
-	margin: 1rem;
+	border-radius: 2px;
+	background-color: transparent;
+	transition: all .2s ease;
+	filter: invert(1);
+}
+
+#search>#searchButtons>button:last-of-type {
+	margin-left: .75rem;
+}
+
+#search>#searchButtons>button:hover,
+#search>#searchButtons>button:focus {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, .1);
+}
+
+#search>#searchButtons>#back {
+	background-image: url("../images/back.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
+
+#search>#searchButtons>#forward {
+	background-image: url("../images/forward.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
+
+#search>#searchButtons>#refresh {
+	background-image: url("../images/refresh.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	} to {
+		transform: rotate(360deg);		
+	}
+}
+
+#search>#searchButtons>#refresh.loading {
+	animation: rotate .75s linear infinite;
+	background-image: url("../images/loading.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 75%;
+	transform-origin: center center;
+}
+
+#search>#searchButtons>#dirUp {
+	background-image: url("../images/dirUp.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 60%;
+}
+
+
+#search>input {
+	-webkit-app-region: no-drag;
+	border: none;
+	width: calc(100%);
+	padding: 1rem;
+	padding-bottom: .85rem;
 	border-radius: 4px;
 	box-shadow: 0 .1rem .25rem 0 rgba(0, 0, 0, .1);
 }

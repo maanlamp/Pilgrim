@@ -2,7 +2,9 @@
 	background: #F9F9F9;
 	width: 100%;
 	height: calc(100% - var(--windowTitlebarHeight));
-	overflow-y: auto;
+	--scrollbarBorderRadius: 0;
+	--scrollbar-border-radius: var(--scrollbarBorderRadius);
+	display: flex;
 }
 
 #appContainer:not(.fullscreen) #viewport {

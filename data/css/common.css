@@ -1,7 +1,6 @@
 :root {
 	--windowBorderRadius: 8px;
 	--window-border-radius: var(--windowBorderRadius);
-	font-size: 14px;
 }
 
 * {
@@ -14,11 +13,10 @@ ol, ul {
 	list-style: none;
 }
 
-.fullWidthUItem {
-	display: block;
-	width: 100%;
-}
-
 :focus {
 	outline: none;
+}
+
+input {
+	font: inherit;
 }
