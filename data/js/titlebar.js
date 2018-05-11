@@ -3,6 +3,12 @@ const { remote } = electron;
 const { BrowserWindow } = remote;
 const display = electron.screen;
 
+const title = document.querySelector("h1#title");
+title.textContent = document.querySelector("title").textContent;
+title.addEventListener("animationend", () => {
+	title.remove();
+})
+
 document.querySelector("#minimise").addEventListener("click", () => {
 	const remoteWindow = remote.getCurrentWindow();
 	remoteWindow.minimize();

@@ -9,19 +9,31 @@
 
 #tabbar>.tab {
 	cursor: pointer;
-	padding: .5rem;
+	padding: .75rem;
+	padding-top: .25rem;
 	color: white;
+	min-width: 8rem;
 	width: 8rem;
 	white-space: nowrap;
 	overflow: hidden;
 	border-radius: 2px 2px 0 0;
 	opacity: .5;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 #tabbar>.tab:hover,
 #tabbar>.tab:focus {
 	background-color: rgb(var(--windowTitlebarColourLight));
 	opacity: 1;
+}
+
+#tabbar>.tab.open {
+	width: unset;
+	overflow: unset;
+	white-space: unset;
+	text-overflow: unset;
 }
 
 #tabbar>.tab>* {

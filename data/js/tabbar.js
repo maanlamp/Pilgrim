@@ -19,3 +19,5 @@ function rebuildTabs () {
 }
 
 rebuildTabs();
+
+//Add open class to clicked tabs

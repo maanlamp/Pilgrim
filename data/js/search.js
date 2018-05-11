@@ -26,7 +26,7 @@ function lookupIcon (path, img) {
 	});
 }
 
-async function search (path) {
+async function search (path = searchbar.value) {
 	const button = document.querySelector("#search>#searchButtons>#refresh");
 	button.classList.add("loading");
 	button.title = "Loading";
@@ -46,6 +46,7 @@ async function search (path) {
 		const figure = document.createElement("FIGURE");
 		const title = document.createElement("H2");
 		title.textContent = file;
+		item.title = file;
 		const description = document.createElement("P");
 		const stats = stat(fullpath, (err, stats) => {
 			const isDirectory = stats.isDirectory();
@@ -53,7 +54,7 @@ async function search (path) {
 			if (isDirectory) {
 				item.addEventListener("click", () => {
 					searchbar.value = fullpath;
-					search(searchbar.value);
+					search();
 				});
 				fs.readFile("./data/images/icons/directory.svg", (err, data) => {
 					if (err) throw err;
@@ -73,6 +74,24 @@ async function search (path) {
 searchbar.addEventListener("keyup", event => {
 	event.preventDefault();
 	if (event.keyCode === 13) {
-		search(searchbar.value);
+		search();
 	}
+});
+
+function bindClickAnimation (buttonCSSSelector, animationName) {
+	const button = document.querySelector(buttonCSSSelector);
+	button.addEventListener("click", event => {
+		button.removeAttribute("style");
+		button.style.animation = `${animationName} .2s ease-out`
+	});
+	button.addEventListener("animationend", event => {
+		button.removeAttribute("style");
+	});
+}
+
+bindClickAnimation("#search #back", "back");
+bindClickAnimation("#search #forward", "forward");
+bindClickAnimation("#search #dirUp", "dirUp");
+document.querySelector("#search #refresh").addEventListener("click", event => {
+	search();
 });

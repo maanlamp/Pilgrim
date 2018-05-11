@@ -1,13 +1,19 @@
 #itemList {
-	overflow-y: auto;
-	width: calc(100% - 12.75rem);
+	--scrollbarBorderRadius: 0;
+	--scrollbar-border-radius: var(--scrollbarBorderRadius);
 	display: flex;
+	flex: 0 0 calc(100% - 12.125rem);
 	flex-wrap: wrap;
+	padding: .25rem;
+	background: #F9F9F9;
+	border-radius: 0 0 var(--windowBorderRadius) 0;
+	overflow-y: auto;
 }
 
 #itemList>li {
-	margin: 1rem;
-	padding: 2rem 1rem 1rem 1rem;
+	margin: .5rem;
+	padding: 1rem;
+	padding-top: 2rem;
 	background-color: none;
 	border-radius: .25rem;
 	display: flex;
@@ -15,17 +21,28 @@
 	align-items: center;
 	position: relative;
 	cursor: pointer;
-	width: 15rem;
-	height: 15rem;
+	width: 14rem;
+	height: 14rem;
 }
 
 #itemList>li:hover,
 #itemList>li:focus {
-	background: rgba(255, 0, 0, .1);
+	background: rgba(var(--windowTitlebarColour), .1);
+}
+
+#itemList>li>* {
+	width: 100%;
+}
+
+#itemList>li>h2 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.25rem;
 }
 
 li>figure {
-	perspective: 1px;
+	perspective: 1000px;
 }
 
 li>figure>svg {
@@ -35,22 +52,30 @@ li>figure>svg {
 li>figure>svg>path {
 	transition: all .1s ease-out;
 	transform-origin: bottom;
+	transform-style: preserve-3d;
 }
 
 li:hover>figure>svg>path:first-of-type {
-	transform: rotateX(-15deg) perspective(1px);
+	transform: rotateX(-15deg);
 }
 
 li:hover>figure>svg>path:last-of-type {
-	transform: rotateX(50deg) perspective(1px);
+	transform: rotateX(50deg);
 }
 
 #itemList::-webkit-scrollbar {
 	background: rgba(var(--windowTitlebarColour), .1);
 	border-radius: 0 0 calc(var(--windowBorderRadius) - 2px) 0;
+	width: 1rem;
+	transition: all .2s ease;
 }
 
 #itemList::-webkit-scrollbar-thumb {
+	background: rgba(var(--windowTitlebarColour), .8);
+	border-radius: 0 0 var(--scrollbarBorderRadius) 0;
+}
+
+#itemList::-webkit-scrollbar-thumb:hover {
 	background: rgba(var(--windowTitlebarColour), 1);
 	border-radius: 0 0 var(--scrollbarBorderRadius) 0;
 }

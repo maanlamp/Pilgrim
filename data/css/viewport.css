@@ -1,10 +1,7 @@
 #viewport {
-	background: #F9F9F9;
-	width: 100%;
-	height: calc(100% - var(--windowTitlebarHeight));
-	--scrollbarBorderRadius: 0;
-	--scrollbar-border-radius: var(--scrollbarBorderRadius);
 	display: flex;
+	height: calc(100% - 8.56rem);
+	width: 100%;
 }
 
 #appContainer:not(.fullscreen) #viewport {

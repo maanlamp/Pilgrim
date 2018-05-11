@@ -6,7 +6,7 @@ itemlist.addEventListener("scroll", event => {
 	const windowBottom = itemlist.scrollHeight;
 	const distanceBetweenBottoms = windowBottom - viewportBottom;
 	if (distanceBetweenBottoms < minimalDistance) {
-		const factor = (minimalDistance - distanceBetweenBottoms) / minimalDistance * .425;
+		const factor = (minimalDistance - distanceBetweenBottoms) / minimalDistance * .4;
 		itemlist.style.setProperty("--scrollbarBorderRadius", `${factor}rem`);
 	}
 	
