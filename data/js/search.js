@@ -1,4 +1,4 @@
-const searchbar = document.querySelector("#search>#searchbar");
+const searchbar = document.querySelector("nav");
 const input = searchbar.querySelector("input");
 const itemList = document.querySelector("#itemList");
 const { readdir, stat } = require("fs");
@@ -49,7 +49,7 @@ function spanifySearchbar (splitOn = /[/\\]/) {
 
 function lookupIcon (path, img) {
 	return new Promise((resolve, reject) => {
-		const ext = nodePath.extname(path).replace(".", "");
+		const ext = nodePath.extname(path).replace(".", "").toLowerCase();
 		fs.readFile("./data/json/icons.json", (err, data) => {
 			if (err) reject(err);
 			const json = JSON.parse(data);
@@ -57,6 +57,9 @@ function lookupIcon (path, img) {
 			if (src) {
 				resolve(src);
 			} else {
+				if (["png", "jpg", "jpeg", "webp", "tiff", "gif", "bmp", "svg"].includes(ext)) {
+					resolve(path);
+				}
 				app.getFileIcon(path, (err, icon) => {
 					if (err) console.error(err);
 					resolve(icon.toDataURL());
@@ -68,7 +71,7 @@ function lookupIcon (path, img) {
 
 let windowLocation = "";
 async function search (path = `${windowLocation}\\`) {
-	const button = document.querySelector("#search>#searchButtons>#refresh");
+	const button = document.querySelector("nav>#searchButtons>#refresh");
 	button.classList.add("loading");
 	button.title = "Loading";
 	setTimeout(() => {
@@ -78,10 +81,15 @@ async function search (path = `${windowLocation}\\`) {
 	while (itemList.lastChild) {
 		itemList.removeChild(itemList.lastChild);
 	}
-	
-	if (path.toLowerCase().includes("start")) return; //Implement start screen
-	
-	if (!fs.existsSync(path)) {
+
+	if (windowLocation.slice(0, 6).toLowerCase() === "start:") {
+		input.value = "";
+		spanifySearchbar();
+		console.log("START MENU ACTIVATEEEEEDDD!!!");
+		return;
+	}
+
+	if (!fs.existsSync(path)) { //If absolute search doesnt exist, try appending it to current path
 		let temp = "";
 		const spans = searchbar.querySelectorAll("span");
 		for (const span of spans) {
@@ -89,10 +97,16 @@ async function search (path = `${windowLocation}\\`) {
 		}
 		path = nodePath.join(temp, path);
 		windowLocation = path;
+		console.log(path);
+		if (!fs.existsSync(path)) { //if still no match
+			//Search
+		}
 	}
-	let files = await readDir(path);
+
 	input.value = "";
 	spanifySearchbar();
+
+	let files = await readDir(path);
 	
 	files.forEach((file, i) => {
 		const fullpath = nodePath.join(path, file);
@@ -145,9 +159,9 @@ function bindClickAnimation (buttonCSSSelector, animationName) {
 	});
 }
 
-bindClickAnimation("#search #back", "back");
-bindClickAnimation("#search #forward", "forward");
-bindClickAnimation("#search #dirUp", "dirUp");
-document.querySelector("#search #refresh").addEventListener("click", event => {
+bindClickAnimation("nav #back", "back");
+bindClickAnimation("nav #forward", "forward");
+bindClickAnimation("nav #dirUp", "dirUp");
+document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });

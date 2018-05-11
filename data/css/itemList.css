@@ -4,18 +4,21 @@
 	display: flex;
 	flex: 0 0 calc(100% - 12.125rem);
 	flex-wrap: wrap;
+	align-content: flex-start;
 	padding: .25rem;
 	background: #F9F9F9;
-	border-radius: 0 0 var(--windowBorderRadius) 0;
 	overflow-y: auto;
+}
+
+html:not(.fullscreen) #itemList {
+	border-radius: 0 0 var(--windowBorderRadius) 0;
 }
 
 #itemList>li {
 	margin: .5rem;
 	padding: 1rem;
 	padding-top: 2rem;
-	background-color: none;
-	border-radius: .25rem;
+	border-radius: 4px;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -43,10 +46,13 @@
 
 li>figure {
 	perspective: 1000px;
+	overflow: hidden;
+	height: 4rem;
 }
 
-li>figure>svg {
-	width: 4rem;
+li>figure>svg,
+li>figure>img {
+	max-width: 4rem;
 }
 
 li>figure>svg>path {

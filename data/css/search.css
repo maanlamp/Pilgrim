@@ -1,4 +1,4 @@
-#search {
+nav {
 	background: rgb(var(--windowTitlebarColourLight));
 	padding: .75rem;
 	margin: 0 -1rem;
@@ -8,14 +8,14 @@
 	-webkit-app-region: no-drag;
 }
 
-#search>#searchButtons {
+nav>#searchButtons {
 	width: 12rem;
 	margin: -1rem 0;
 	display: flex;
 	align-items: center;
 }
 
-#search>#searchButtons>button {
+nav>#searchButtons>button {
 	width: 2.5rem;
 	height: 2.5rem;
 	margin: .125rem;
@@ -26,12 +26,12 @@
 	filter: invert(1);
 }
 
-#search>#searchButtons>button:last-of-type {
+nav>#searchButtons>button:last-of-type {
 	margin-left: .75rem;
 }
 
-#search>#searchButtons>button:hover,
-#search>#searchButtons>button:focus {
+nav>#searchButtons>button:hover,
+nav>#searchButtons>button:focus {
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, .1);
 }
@@ -74,21 +74,21 @@
 	}
 }
 
-#search>#searchButtons>#back {
+nav>#searchButtons>#back {
 	background-image: url("../images/back.png");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 60%;
 }
 
-#search>#searchButtons>#forward {
+nav>#searchButtons>#forward {
 	background-image: url("../images/forward.png");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 60%;
 }
 
-#search>#searchButtons>#refresh {
+nav>#searchButtons>#refresh {
 	background-image: url("../images/refresh.png");
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -103,7 +103,7 @@
 	}
 }
 
-#search>#searchButtons>#refresh.loading {
+nav>#searchButtons>#refresh.loading {
 	animation: rotate .5s linear infinite;
 	background-image: url("../images/loading.png");
 	border-radius: 50%;
@@ -128,14 +128,14 @@
 	}
 }
 
-#search>#searchButtons>#dirUp {
+nav>#searchButtons>#dirUp {
 	background-image: url("../images/dirUp.png");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 60%;
 }
 
-#search>#searchbar {
+nav>#searchbar {
 	flex-basis: 100%;
 	border-radius: 4px;
 	box-shadow: 0 .1rem .25rem 0 rgba(0, 0, 0, .1);
@@ -150,11 +150,11 @@
 	height: 0rem;
 }
 
-#search>#searchbar>#searchbarSpans {
+nav>#searchbar>#searchbarSpans {
 	display: flex;
 }
 
-#search>#searchbar>input {
+nav>#searchbar>input {
 	border: none;
 	background: none;
 	z-index: 1;
@@ -162,26 +162,26 @@
 	min-width: 50%;
 }
 
-#search>#searchbar>#searchbarSpans:not(:empty)+input {
+nav>#searchbar>#searchbarSpans:not(:empty)+input {
 	padding-left: 1.25rem;
 }
 
-#search>#searchbar>#searchbarSpans>span {
+nav>#searchbar>#searchbarSpans>span {
 	border-radius: 4px;
-	padding: .75rem .25rem;
-	margin: .25rem .5rem;
+	padding: .75rem .5rem;
+	margin: 0 .5rem;
 	cursor: pointer;
 	position: relative;
 	flex-shrink: 0;
 	transition: opacity .5s ease, margin-left .33s ease, margin-right .33s ease;
 }
 
-#search>#searchbar>#searchbarSpans>span:hover,
-#search>#searchbar>#searchbarSpans>span:focus {
+nav>#searchbar>#searchbarSpans>span:hover,
+nav>#searchbar>#searchbarSpans>span:focus {
 	background: rgba(var(--windowTitlebarColour), .1);
 }
 
-#search>#searchbar>#searchbarSpans>span::after {
+nav>#searchbar>#searchbarSpans>span::after {
 	display: block;
 	content: "";
 	background-size: 85%;
@@ -192,12 +192,12 @@
 	top: 0;
 }
 
-#search>#searchbar>#searchbarSpans>span:not(:last-of-type)::after {
+nav>#searchbar>#searchbarSpans>span:not(:last-of-type)::after {
 	background: url("../images/forward.png") no-repeat center center;
 	background-size: 85%;
 }
 
-#search>#searchbar>#searchbarSpans>span:last-of-type::after {
+nav>#searchbar>#searchbarSpans>span:last-of-type::after {
 	background: url("../images/search.png") no-repeat center center;
 	background-size: 85%;
 	margin-left: .5rem;
@@ -205,7 +205,7 @@
 	top: 1.5%;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2):not(:last-of-type) {
+nav>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2):not(:last-of-type) {
 	width: 2rem;
 	text-overflow: ellipsis;
   white-space: nowrap;
@@ -214,14 +214,14 @@
 	margin-top: 0rem;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:not(:last-of-type) {
+nav>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:not(:last-of-type) {
 	width: 0;
 	opacity: 0;
 	margin: 0;
 	padding: 0;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:last-of-type::before {
+nav>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:last-of-type::before {
 	display: block;
 	content: "";
 	width: 1rem;

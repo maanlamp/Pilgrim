@@ -2,6 +2,9 @@
 	background: rgba(249, 249, 249, .95);
 	height: 100%;
 	width: 12.125rem;
+}
+
+html:not(.fullscreen) #quickFind {
 	border-radius: 0 0 0 var(--windowBorderRadius);
 }
 
