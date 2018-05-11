@@ -204,6 +204,7 @@
   white-space: nowrap;
 	overflow: hidden;
 	padding-left: .5rem;
+	margin-top: 0rem;
 }
 
 #search>#searchbar>#searchbarSpans:not(:hover)>span:nth-of-type(n+2)+span:not(:last-of-type) {
