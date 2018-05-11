@@ -120,6 +120,7 @@ async function search (path = `${windowLocation}\\`) {
 			}
 		});
 		[figure, title, description].forEach(element => item.appendChild(element));
+		item.setAttribute("tabindex", 0);
 		itemList.appendChild(item);
 	});
 }

@@ -198,7 +198,7 @@
 	top: 1.5%;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover)>span:nth-of-type(n+2):not(:last-of-type) {
+#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2):not(:last-of-type) {
 	width: 2rem;
 	text-overflow: ellipsis;
   white-space: nowrap;
@@ -207,14 +207,14 @@
 	margin-top: 0rem;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover)>span:nth-of-type(n+2)+span:not(:last-of-type) {
+#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:not(:last-of-type) {
 	width: 0;
 	opacity: 0;
 	margin: 0;
 	padding: 0;
 }
 
-#search>#searchbar>#searchbarSpans:not(:hover)>span:nth-of-type(n+2)+span:last-of-type::before {
+#search>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2)+span:last-of-type::before {
 	display: block;
 	content: "";
 	width: 1rem;
