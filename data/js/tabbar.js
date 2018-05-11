@@ -12,8 +12,8 @@ function rebuildTabs () {
 		[firstLetter, rest].forEach(div => tab.appendChild(div));
 		tab.setAttribute("tabindex", 0);
 		tab.addEventListener("click", event => {
-			searchbar.value = tab.dataset.url;
-			search(searchbar.value);
+			windowLocation = tab.dataset.url;
+			search();
 		});
 	});
 }

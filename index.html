@@ -17,34 +17,37 @@
 <body>
 	<div id="appContainer">
 		<header id="titlebar">
-				<button id="titlebarMenu"><img src="./data/images/menu.png" alt="Menu"></button>
-				<img id="titlebarIcon" src="./data/images/icon.png" alt="Icon">
-				<h1 id="title">Pilgrim</h1>
-				<ul id="tabbar">
-					<li data-url="Start" class="tab">Start</li>
-					<li data-url="C:\Users\Wouter\Desktop\Projects\Git" class="tab">Git</li>
-				</ul>
-				<div id="titlebarButtons">
-					<button id="minimise" title="Minimise window"></button>
-					<button id="maximise" title="Maximise window"></button>
-					<button id="close" title="Close window"></button>
+			<button id="titlebarMenu"><img src="./data/images/menu.png" alt="Menu"></button>
+			<img id="titlebarIcon" src="./data/images/icon.png" alt="Icon">
+			<h1 id="title">Pilgrim</h1>
+			<ul id="tabbar">
+				<li data-url="Start" class="tab">Start</li>
+				<li data-url="C:\Users\Wouter\Desktop\Projects\Git" class="tab">Git</li>
+			</ul>
+			<div id="titlebarButtons">
+				<button id="minimise" title="Minimise window"></button>
+				<button id="maximise" title="Maximise window"></button>
+				<button id="close" title="Close window"></button>
+			</div>
+			<div id="search">
+				<div id="searchButtons">
+					<button id="back" title="Go back"></button>
+					<button id="forward" title="Go forward"></button>
+					<button id="refresh" title="Refresh"></button>
+					<button id="dirUp" title="Go up one directory"></button>
 				</div>
-				<div id="search">
-					<div id="searchButtons">
-						<button id="back" title="Go back"></button>
-						<button id="forward" title="Go forward"></button>
-						<button id="refresh" title="Refresh"></button>
-						<button id="dirUp" title="Go up one directory"></button>
-					</div>
+				<div id="searchbar">
+					<div id="searchbarSpans"></div>
 					<input type="text" placeholder="Search...">
 				</div>
-			</header>
-			<main id="viewport">
-				<ul id="quickFind">
-					<li data-url="Start" class="quickFindItem">Start</li>
-				</ul>
-				<ul id="itemList"></ul>
-			</main>
+			</div>	
+		</header>
+		<main id="viewport">
+			<ul id="quickFind">
+				<li data-url="Start" class="quickFindItem">Start</li>
+			</ul>
+			<ul id="itemList"></ul>
+		</main>
 	</div>
 	<script src="./data/js/titlebar.js"></script>
 	<script src="./data/js/search.js"></script>

@@ -5,8 +5,8 @@ function rebuildQuickfind () {
 	items.forEach((item, i) => {
 		item.setAttribute("tabindex", 0);
 		item.addEventListener("click", event => {
-			searchbar.value = item.dataset.url;
-			search(searchbar.value);
+			windowLocation = item.dataset.url;
+			search();
 		});
 	});
 }
