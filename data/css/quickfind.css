@@ -1,7 +1,7 @@
 #quickFind {
 	background: rgba(249, 249, 249, .95);
 	height: 100%;
-	width: 12.125rem;
+	width: 20rem;
 }
 
 html:not(.fullscreen) #quickFind {

@@ -7,6 +7,8 @@ const { promisify } = require("util");
 const readDir = promisify(readdir);
 const { app } = electron.remote;
 const fs = require("fs");
+const drivelist = require("drivelist");
+const diskspace = require("diskspace");
 
 Object.defineProperty(Array.prototype, "remove", {
 	value: function remove (from, to) {
@@ -21,6 +23,17 @@ Object.defineProperty(Array.prototype, "clone", {
 		return this.slice();
 	}
 });
+
+function formatBytes (bytes, bitsOrBytes = "bytes") {
+	bytes = Number(bytes);
+	if (bytes === 1) return "1 Byte";
+	const byteSizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+	const bitSizes = ["Bits", "KiB", "MiB", "GiB", "TiB", "PiB"];
+	const sizes = (bitsOrBytes === "bytes") ? byteSizes : bitSizes;
+	const factor = (bitsOrBytes === "bytes") ? 1024 : 1000;
+	const sizeIndex = Math.floor(Math.log(bytes) / Math.log(factor));
+	return `${(bytes / (factor ** sizeIndex)).toFixed()} ${sizes[sizeIndex]}`;
+}
 
 function spanifySearchbar (splitOn = /[/\\]/) {
 	let query = windowLocation;
@@ -85,7 +98,57 @@ async function search (path = `${windowLocation}\\`) {
 	if (windowLocation.slice(0, 6).toLowerCase() === "start:") {
 		input.value = "";
 		spanifySearchbar();
-		console.log("START MENU ACTIVATEEEEEDDD!!!");
+		drivelist.list((err, drives) => {
+			if (err) throw err;
+			for (const drive of drives) {
+				const diskName = drive.mountpoints[0].path;
+				const diskLetter = diskName.replace(/[/\\]/, "");
+				const item = document.createElement("LI");
+				const canvas = document.createElement("CANVAS");
+				const ctx = canvas.getContext("2d");
+				ctx.lineWidth = 12;
+				ctx.font = "5rem Varela round";
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
+				ctx.lineCap = "round";
+				const title = document.createElement("H2");
+				const description = document.createElement("P");
+				title.textContent = drive.description;
+				item.title = `${drive.description} (${diskLetter})`;
+				description.textContent = "n/a available.";
+				[canvas, title, description].forEach(element => item.appendChild(element));
+				itemList.appendChild(item);
+				const min = 1/5 * Math.PI;
+				const max = (1+ 4/5) * Math.PI;
+				const size = Math.min(canvas.width, canvas.height) / 2 - ctx.lineWidth;
+				ctx.save();
+				ctx.translate(canvas.width / 2, canvas.height / 2);
+				ctx.rotate(1/2 * Math.PI);
+				ctx.beginPath();
+				ctx.strokeStyle = "#CDCDCD";
+				ctx.arc(0, 0, size, min, max);
+				ctx.stroke();
+				ctx.restore();
+				diskspace.check(diskName, (err, space) => {
+					if (err) throw err;
+					description.textContent = `${formatBytes(space.free)} / ${formatBytes(space.total)} available.`;
+					ctx.save();
+					ctx.translate(canvas.width / 2, canvas.height / 2);
+					ctx.rotate(1/2 * Math.PI);
+					ctx.beginPath();
+					ctx.strokeStyle = `rgb(${getComputedStyle(document.querySelector(":root")).getPropertyValue("--windowTitlebarColour")})`;
+					ctx.arc(0, 0, size, min, min + (space.used / space.total) * max);
+					ctx.stroke();
+					ctx.rotate(1/2 * -Math.PI);
+					ctx.fillText(diskLetter, 0, 0);
+					ctx.restore();
+					item.addEventListener("click", () => {
+						windowLocation = diskName;
+						search();
+					});
+				});
+			}
+		});
 		return;
 	}
 
@@ -97,7 +160,6 @@ async function search (path = `${windowLocation}\\`) {
 		}
 		path = nodePath.join(temp, path);
 		windowLocation = path;
-		console.log(path);
 		if (!fs.existsSync(path)) { //if still no match
 			//Search
 		}
@@ -148,20 +210,34 @@ input.addEventListener("keyup", event => {
 	}
 });
 
-function bindClickAnimation (buttonCSSSelector, animationName) {
+function bindClick (buttonCSSSelector, func) {
 	const button = document.querySelector(buttonCSSSelector);
+	func(button);
+}
+
+function bindAnimation (button, name) {
 	button.addEventListener("click", event => {
 		button.removeAttribute("style");
-		button.style.animation = `${animationName} .2s ease-out`
+		button.style.animation = `${name} .2s ease-out`;
 	});
 	button.addEventListener("animationend", event => {
 		button.removeAttribute("style");
 	});
 }
 
-bindClickAnimation("nav #back", "back");
-bindClickAnimation("nav #forward", "forward");
-bindClickAnimation("nav #dirUp", "dirUp");
+bindClick("nav #back", button => {
+	bindAnimation(button, "back");
+});
+bindClick("nav #forward", button => {
+	bindAnimation(button, "forward");
+});
+bindClick("nav #dirUp", button => {
+	bindAnimation(button, "dirUp");
+	button.addEventListener("click", () => {
+		windowLocation = nodePath.dirname(windowLocation);
+		search();
+	});
+});
 document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });
