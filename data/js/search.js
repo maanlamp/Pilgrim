@@ -100,14 +100,14 @@ async function search (path = `${windowLocation}\\`) {
 		spanifySearchbar();
 		drivelist.list((err, drives) => {
 			if (err) throw err;
-			for (const drive of drives) {
+			drives.forEach((drive, i) => {
 				const diskName = drive.mountpoints[0].path;
 				const diskLetter = diskName.replace(/[/\\]/, "");
 				const item = document.createElement("LI");
 				const canvas = document.createElement("CANVAS");
 				const ctx = canvas.getContext("2d");
 				ctx.lineWidth = 12;
-				ctx.font = "5rem Varela round";
+				ctx.font = "4rem Varela round";
 				ctx.textAlign = "center";
 				ctx.textBaseline = "middle";
 				ctx.lineCap = "round";
@@ -118,6 +118,7 @@ async function search (path = `${windowLocation}\\`) {
 				description.textContent = "n/a available.";
 				[canvas, title, description].forEach(element => item.appendChild(element));
 				itemList.appendChild(item);
+				item.style.animation = `popin .5s ease ${i * 100}ms forwards`;
 				const min = 1/5 * Math.PI;
 				const max = (1+ 4/5) * Math.PI;
 				const size = Math.min(canvas.width, canvas.height) / 2 - ctx.lineWidth;
@@ -147,7 +148,7 @@ async function search (path = `${windowLocation}\\`) {
 						search();
 					});
 				});
-			}
+			});
 		});
 		return;
 	}
@@ -199,6 +200,9 @@ async function search (path = `${windowLocation}\\`) {
 		[figure, title, description].forEach(element => item.appendChild(element));
 		item.setAttribute("tabindex", 0);
 		itemList.appendChild(item);
+		const listWidth = Number(getComputedStyle(document.querySelector("#itemList")).width.match(/\d+/)[0]);
+		const itemWidth = Number(getComputedStyle(item).width.match(/\d+/)[0]);
+		item.style.animation = `popin .5s ease ${Math.floor(i / Math.floor(listWidth / itemWidth)) * 50}ms forwards`;
 	});
 }
 
@@ -241,3 +245,7 @@ bindClick("nav #dirUp", button => {
 document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });
+
+input.value = "Start:\\";
+windowLocation = input.value;
+search();

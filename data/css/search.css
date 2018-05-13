@@ -22,7 +22,7 @@ nav>#searchButtons>button {
 	border: none;
 	border-radius: 2px;
 	background-color: transparent;
-	transition: all .2s ease;
+	transition: background-color .1s ease, border-radius .5s ease, background .33s ease;
 	filter: invert(1);
 }
 
@@ -32,7 +32,6 @@ nav>#searchButtons>button:last-of-type {
 
 nav>#searchButtons>button:hover,
 nav>#searchButtons>button:focus {
-	cursor: pointer;
 	background-color: rgba(0, 0, 0, .1);
 }
 
@@ -95,7 +94,7 @@ nav>#searchButtons>#refresh {
 	background-size: 60%;
 }
 
-@keyframes rotate {
+@keyframes loading {
 	from {
 		transform: rotate(0deg);
 	} to {
@@ -104,7 +103,7 @@ nav>#searchButtons>#refresh {
 }
 
 nav>#searchButtons>#refresh.loading {
-	animation: rotate .5s linear infinite;
+	animation: loading .5s linear infinite;
 	background-image: url("../images/loading.png");
 	border-radius: 50%;
 }
@@ -156,14 +155,20 @@ nav>#searchbar>#searchbarSpans {
 
 nav>#searchbar>input {
 	border: none;
-	background: none;
+	background: url("../images/search.png") no-repeat 1rem center;
+	background-size: 1rem;
 	z-index: 1;
 	padding: 1rem;
-	min-width: 50%;
+	padding-left: 2.5rem;
+	flex-basis: 100%;
 }
 
-nav>#searchbar>#searchbarSpans:not(:empty)+input {
-	padding-left: 1.25rem;
+nav>#searchbar>input::placeholder {
+	color: currentColor;
+}
+
+nav>#searchbar>input:placeholder-shown {
+	opacity: .5;
 }
 
 nav>#searchbar>#searchbarSpans>span {
@@ -181,7 +186,7 @@ nav>#searchbar>#searchbarSpans>span:focus {
 	background: rgba(var(--windowTitlebarColour), .1);
 }
 
-nav>#searchbar>#searchbarSpans>span::after {
+nav>#searchbar>#searchbarSpans>span:not(:last-of-type)::after {
 	display: block;
 	content: "";
 	background-size: 85%;
@@ -190,19 +195,12 @@ nav>#searchbar>#searchbarSpans>span::after {
 	position: absolute;
 	left: 100%;
 	top: 0;
-}
-
-nav>#searchbar>#searchbarSpans>span:not(:last-of-type)::after {
 	background: url("../images/forward.png") no-repeat center center;
 	background-size: 85%;
 }
 
-nav>#searchbar>#searchbarSpans>span:last-of-type::after {
-	background: url("../images/search.png") no-repeat center center;
-	background-size: 85%;
-	margin-left: .5rem;
-	opacity: .5;
-	top: 1.5%;
+nav>#searchbar>#searchbarSpans>span:last-of-type {
+	margin-right: 0;
 }
 
 nav>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n+2):not(:last-of-type) {
@@ -231,4 +229,22 @@ nav>#searchbar>#searchbarSpans:not(:hover):not(:focus-within)>span:nth-of-type(n
 	height: 100%;
 	background: url("../images/forward.png") no-repeat center center;
 	background-size: .9rem;
+}
+
+nav>#searchbar>#searchHistory {
+	flex-basis: 3rem;
+	border: none;
+	border-radius: 4px;
+	background: url("../images/refresh.png") no-repeat center center;
+	background-size: 50%;
+	margin: .25rem;
+	flex-shrink: 0;
+	opacity: .25;
+	transition: all .1s ease;
+}
+
+nav>#searchbar>#searchHistory:hover,
+nav>#searchbar>#searchHistory:focus {
+	background-color: rgba(0, 0, 0, .1);
+	opacity: 1;
 }
