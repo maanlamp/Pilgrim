@@ -8,7 +8,6 @@
 	padding: .25rem;
 	background: #F9F9F9;
 	overflow-y: auto;
-	position: relative;
 }
 
 html:not(.fullscreen) #itemList {

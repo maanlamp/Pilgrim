@@ -5,6 +5,7 @@ const { readdir, stat } = require("fs");
 const nodePath = require("path");
 const { promisify } = require("util");
 const readDir = promisify(readdir);
+const promiseStats = promisify(stat);
 const { app } = electron.remote;
 const fs = require("fs");
 const drivelist = require("drivelist");
@@ -13,6 +14,12 @@ const history = {
 	index: -1,
 	entries: []
 };
+
+let folderSVG;
+fs.readFile("./assets/images/icons/directory.svg", (err, data) => {
+	if (err) throw err;
+	folderSVG = data;
+});
 
 Object.defineProperty(Array.prototype, "remove", {
 	value: function remove (from, to) {
@@ -116,6 +123,7 @@ async function search (path = windowLocation, options = {save: true}) {
 		spanifySearchbar(path);
 		drivelist.list((err, drives) => {
 			if (err) throw err;
+			drives.sort((a, b) => a.mountpoints[0].path > b.mountpoints[0].path);
 			drives.forEach((drive, i) => {
 				const diskName = drive.mountpoints[0].path;
 				const diskLetter = diskName.replace(/[/\\]/, "");
@@ -192,8 +200,10 @@ async function search (path = windowLocation, options = {save: true}) {
 	spanifySearchbar(path);
 
 	let files = await readDir(path);
-	
-	files.forEach((file, i) => {
+	let items = [];
+	const folders = [];
+
+	for (const file of files) {
 		const fullpath = nodePath.join(path, file);
 		const item = document.createElement("LI");
 		const figure = document.createElement("FIGURE");
@@ -201,25 +211,41 @@ async function search (path = windowLocation, options = {save: true}) {
 		title.textContent = file;
 		item.title = file;
 		const description = document.createElement("P");
-		const stats = stat(fullpath, (err, stats) => {
-			const isDirectory = stats.isDirectory();
+		[figure, title, description].forEach(element => item.appendChild(element));
+		item.setAttribute("tabindex", 0);
+		try {
+			const stats = await promiseStats(fullpath);
+			isDirectory = stats.isDirectory();
 			description.textContent = (isDirectory) ? "Directory" : "File";
 			if (isDirectory) {
 				item.addEventListener("click", () => {
 					search(fullpath);
 				});
-				fs.readFile("./assets/images/icons/directory.svg", (err, data) => {
-					if (err) throw err;
-					figure.innerHTML = data;
-				});
+				figure.innerHTML = folderSVG;
 			} else {
 				const img = document.createElement("IMG");
 				figure.appendChild(img);
 				lookupIcon(fullpath).then(src => img.src = src);
 			}
-		});
-		[figure, title, description].forEach(element => item.appendChild(element));
-		item.setAttribute("tabindex", 0);
+			if (isDirectory) {
+				folders.push(item);
+			} else {
+				items.push(item);
+			}
+		} catch (err) {
+			item.remove();
+		}
+	}
+
+	[items, folders].forEach(array => array.sort((a, b) => {
+		const aa = a.title.toLowerCase();
+		const bb = b.title.toLowerCase();
+		if (aa === bb) return 0;
+		return -1 + (aa > bb) * 2;
+	}));
+	items = folders.concat(items);
+
+	items.forEach((item, i) => {
 		itemList.appendChild(item);
 		const listWidth = Number(getComputedStyle(document.querySelector("#itemList")).width.match(/\d+/)[0]);
 		const itemWidth = Number(getComputedStyle(item).width.match(/\d+/)[0]);
