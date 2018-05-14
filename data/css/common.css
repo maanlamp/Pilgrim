@@ -24,3 +24,8 @@ input {
 button {
 	cursor: pointer;
 }
+
+[disabled] {
+	opacity: .5;
+	pointer-events: none;
+}

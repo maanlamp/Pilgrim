@@ -9,7 +9,10 @@ const { app } = electron.remote;
 const fs = require("fs");
 const drivelist = require("drivelist");
 const diskspace = require("diskspace");
-window.path = nodePath;
+const history = {
+	index: -1,
+	entries: []
+};
 
 Object.defineProperty(Array.prototype, "remove", {
 	value: function remove (from, to) {
@@ -36,26 +39,24 @@ function formatBytes (bytes, bitsOrBytes = "bytes") {
 	return `${(bytes / (factor ** sizeIndex)).toFixed()} ${sizes[sizeIndex]}`;
 }
 
-function spanifySearchbar (splitOn = /[/\\]/) {
-	let query = windowLocation;
-	if (query.slice(-1).search(splitOn) > -1) query = query.slice(0, -1);
+function spanifySearchbar (path = windowLocation, splitOn = /[/\\]/) {
+	if (path.slice(-1).search(splitOn) > -1) path = path.slice(0, -1);
 	const searchbarSpans = searchbar.querySelector("#searchbarSpans");
 	const spans = searchbarSpans.querySelectorAll("span");
 	for (const span of spans) {
 		span.remove();
 	}
-	const substrings = query.split(splitOn);
+	const substrings = path.split(splitOn);
 	const chunks = substrings.clone().reverse();
 	for (const chunk of chunks) {
 		const span = document.createElement("SPAN");
 		const regex = new RegExp(`.*${chunk}`, "i");
-		span.dataset.url = query.match(regex)[0];
+		span.dataset.url = path.match(regex)[0];
 		span.title = span.dataset.url;
 		span.textContent = chunk;
 		span.setAttribute("tabindex", 0);
 		span.addEventListener("click", event => {
-			windowLocation = span.dataset.url;
-			search();
+			search(span.dataset.url);
 		});
 		searchbarSpans.prepend(span);
 	}
@@ -75,7 +76,7 @@ function lookupIcon (path, img) {
 					resolve(path);
 				}
 				app.getFileIcon(path, (err, icon) => {
-					if (err) console.error(err);
+					if (err) throw err;
 					resolve(icon.toDataURL());
 				});
 			}
@@ -84,7 +85,8 @@ function lookupIcon (path, img) {
 }
 
 let windowLocation = "";
-async function search (path = `${windowLocation}\\`) {
+async function search (path = `${windowLocation}\\`, options = {save: true}) {
+	windowLocation = path;
 	const button = document.querySelector("nav>#searchButtons>#refresh");
 	button.classList.add("loading");
 	button.title = "Loading";
@@ -96,11 +98,22 @@ async function search (path = `${windowLocation}\\`) {
 		itemList.removeChild(itemList.lastChild);
 	}
 
-	if (windowLocation === "") windowLocation = "Start:\\";
-	const parsedPath = nodePath.parse(windowLocation);
+	if (options.save) {
+		history.entries.push({
+			timestamp: Date.now(),
+			location: path
+		});
+		history.index = history.entries.length - 1;
+	}
+
+	document.querySelector("nav #back").disabled = history.index < 1;
+	document.querySelector("nav #forward").disabled = history.index > history.entries.length - 2;
+
+	if (path === "") path = "Start:\\";
+	const parsedPath = nodePath.parse(path);
 	if (parsedPath.base === "Start:") {
 		input.value = "";
-		spanifySearchbar();
+		spanifySearchbar(path);
 		drivelist.list((err, drives) => {
 			if (err) throw err;
 			drives.forEach((drive, i) => {
@@ -170,7 +183,7 @@ async function search (path = `${windowLocation}\\`) {
 	}
 
 	input.value = "";
-	spanifySearchbar();
+	spanifySearchbar(path);
 
 	let files = await readDir(path);
 	
@@ -187,8 +200,7 @@ async function search (path = `${windowLocation}\\`) {
 			description.textContent = (isDirectory) ? "Directory" : "File";
 			if (isDirectory) {
 				item.addEventListener("click", () => {
-					windowLocation = fullpath;
-					search();
+					search(fullpath);
 				});
 				fs.readFile("./data/images/icons/directory.svg", (err, data) => {
 					if (err) throw err;
@@ -207,14 +219,12 @@ async function search (path = `${windowLocation}\\`) {
 		const itemWidth = Number(getComputedStyle(item).width.match(/\d+/)[0]);
 		item.style.animation = `popin .5s ease ${Math.floor(i / Math.floor(listWidth / itemWidth)) * 50}ms forwards`;
 	});
-	console.log(windowLocation);
 }
 
 input.addEventListener("keyup", event => {
 	event.preventDefault();
 	if (event.keyCode === 13) {
-		windowLocation = input.value;
-		search();
+		search(input.value);
 	}
 });
 
@@ -235,21 +245,29 @@ function bindAnimation (button, name) {
 
 bindClick("nav #back", button => {
 	bindAnimation(button, "back");
+	button.addEventListener("click", () => {
+		search(history.entries[--history.index].location, {
+			save: false
+		});
+	});
 });
 bindClick("nav #forward", button => {
 	bindAnimation(button, "forward");
+	button.addEventListener("click", () => {
+		search(history.entries[++history.index].location, {
+			save: false
+		});
+	});
 });
 bindClick("nav #dirUp", button => {
 	bindAnimation(button, "dirUp");
 	button.addEventListener("click", () => {
 		const parsedPath = nodePath.parse(windowLocation);
-		windowLocation = (windowLocation === parsedPath.root) ? "Start:\\" : parsedPath.dir;
-		search();
+		search((windowLocation === parsedPath.root) ? "Start:\\" : parsedPath.dir);
 	});
 });
 document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });
 
-windowLocation = "Start:\\";
-search();
+search("Start:\\");
