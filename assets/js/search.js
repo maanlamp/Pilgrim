@@ -65,7 +65,7 @@ function spanifySearchbar (path = windowLocation, splitOn = /[/\\]/) {
 function lookupIcon (path, img) {
 	return new Promise((resolve, reject) => {
 		const ext = nodePath.extname(path).replace(".", "").toLowerCase();
-		fs.readFile("./data/json/icons.json", (err, data) => {
+		fs.readFile("./assets/json/icons.json", (err, data) => {
 			if (err) reject(err);
 			const json = JSON.parse(data);
 			const src = json[ext];
@@ -202,7 +202,7 @@ async function search (path = `${windowLocation}\\`, options = {save: true}) {
 				item.addEventListener("click", () => {
 					search(fullpath);
 				});
-				fs.readFile("./data/images/icons/directory.svg", (err, data) => {
+				fs.readFile("./assets/images/icons/directory.svg", (err, data) => {
 					if (err) throw err;
 					figure.innerHTML = data;
 				});
