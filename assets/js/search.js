@@ -46,7 +46,7 @@ function spanifySearchbar (path = windowLocation, splitOn = /[/\\]/) {
 	for (const span of spans) {
 		span.remove();
 	}
-	const substrings = path.split(splitOn);
+	const substrings = path.split(splitOn).filter(element => element !== "");
 	const chunks = substrings.clone().reverse();
 	for (const chunk of chunks) {
 		const span = document.createElement("SPAN");
@@ -269,5 +269,3 @@ bindClick("nav #dirUp", button => {
 document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });
-
-search("Start:\\");

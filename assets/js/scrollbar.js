@@ -1,5 +1,5 @@
 const itemlist = document.querySelector("#itemList");
-const minimalDistance = 200;
+const minimalDistance = 300;
 
 itemlist.addEventListener("scroll", event => {
 	const viewportBottom = itemlist.scrollTop + itemlist.clientHeight;

@@ -1,6 +1,10 @@
+const tabbar = document.querySelector("#tabbar");
+
 function rebuildTabs () {
-	const tabs = document.querySelectorAll("#tabbar>.tab:not([tabindex])");
-	tabs.forEach((tab, i) => {
+	const someTabs = tabbar.querySelectorAll(".tab:not([tabindex]):not(.addTab)");
+	const allTabs = tabbar.querySelectorAll(".tab");
+	someTabs.forEach((tab, i) => {
+		tab.title = tab.dataset.url;
 		const temp = tab.textContent;
 		tab.firstChild.remove();
 		const firstLetter = document.createElement("DIV");
@@ -11,16 +15,22 @@ function rebuildTabs () {
 		rest.classList.add("tabRest");
 		[firstLetter, rest].forEach(div => tab.appendChild(div));
 		tab.setAttribute("tabindex", 0);
-		tab.addEventListener("click", event => {
-			for (const tab of tabs) {
+		tab.onclick = event => {
+			for (const tab of allTabs) {
 				tab.classList.remove("open");
 			}
 			tab.classList.add("open");
 			search(tab.dataset.url);
-		});
+		};
 	});
 }
 
-rebuildTabs();
-
-//Add open class to clicked tabs
+tabbar.querySelector(".addTab").addEventListener("click", event => {
+	const tab = document.createElement("LI");
+	tab.dataset.url = windowLocation || "Start:\\";
+	tab.textContent = windowLocation || "Start"; //create naming function to filter slashes and get basename or smth
+	tab.classList.add("tab");
+	tabbar.insertBefore(tab, tabbar.lastElementChild);
+	rebuildTabs();
+	tab.click();
+});
