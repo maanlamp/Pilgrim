@@ -23,7 +23,7 @@ document.querySelector("#maximise").addEventListener("click", () => {
 	if (appContainer.classList.contains("fullscreen")) {
 		remoteWindow.maximize();
 	} else {
-		remoteWindow.setSize(680, 420);
+		remoteWindow.setSize(1000, 640);
 		
 	}
 	remoteWindow.center();
