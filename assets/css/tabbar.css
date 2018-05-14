@@ -22,7 +22,8 @@
 }
 
 #tabbar>.tab:hover,
-#tabbar>.tab:focus {
+#tabbar>.tab:focus,
+#tabbar>.tab.open {
 	background-color: rgb(var(--windowTitlebarColourLight));
 	opacity: 1;
 }

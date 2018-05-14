@@ -12,8 +12,11 @@ function rebuildTabs () {
 		[firstLetter, rest].forEach(div => tab.appendChild(div));
 		tab.setAttribute("tabindex", 0);
 		tab.addEventListener("click", event => {
-			windowLocation = tab.dataset.url;
-			search();
+			for (const tab of tabs) {
+				tab.classList.remove("open");
+			}
+			tab.classList.add("open");
+			search(tab.dataset.url);
 		});
 	});
 }
