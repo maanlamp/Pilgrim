@@ -157,7 +157,7 @@ async function search (path = `${windowLocation}\\`, options = {save: true}) {
 					ctx.arc(0, 0, size, min, min + (space.used / space.total) * max);
 					ctx.stroke();
 					ctx.rotate(1/2 * -Math.PI);
-					ctx.fillText(diskLetter, 0, 0);
+					ctx.fillText(diskName, 0, 0);
 					ctx.restore();
 					item.addEventListener("click", () => {
 						windowLocation = diskName;

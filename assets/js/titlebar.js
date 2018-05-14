@@ -24,7 +24,6 @@ document.querySelector("#maximise").addEventListener("click", () => {
 		remoteWindow.maximize();
 	} else {
 		remoteWindow.setSize(1000, 640);
-		
 	}
 	remoteWindow.center();
 });
