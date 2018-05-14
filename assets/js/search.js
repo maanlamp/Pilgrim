@@ -85,7 +85,7 @@ function lookupIcon (path, img) {
 }
 
 let windowLocation = "";
-async function search (path = `${windowLocation}\\`, options = {save: true}) {
+async function search (path = windowLocation, options = {save: true}) {
 	windowLocation = path;
 	const button = document.querySelector("nav>#searchButtons>#refresh");
 	button.classList.add("loading");
@@ -133,8 +133,14 @@ async function search (path = `${windowLocation}\\`, options = {save: true}) {
 				item.title = `${drive.description} (${diskLetter})`;
 				description.textContent = "n/a available.";
 				[canvas, title, description].forEach(element => item.appendChild(element));
+				item.setAttribute("tabindex", 0);
 				itemList.appendChild(item);
-				item.style.animation = `popin .5s ease ${i * 100}ms forwards`;
+				item.style.animation = `popin .5s ease ${i * 100}ms`;
+				item.classList.add("invisible");
+				item.addEventListener("animationend", () => {
+					item.removeAttribute("style");
+					item.classList.remove("invisible");
+				});
 				const min = 1/5 * Math.PI;
 				const max = (1+ 4/5) * Math.PI;
 				const size = Math.min(canvas.width, canvas.height) / 2 - ctx.lineWidth;
@@ -217,7 +223,12 @@ async function search (path = `${windowLocation}\\`, options = {save: true}) {
 		itemList.appendChild(item);
 		const listWidth = Number(getComputedStyle(document.querySelector("#itemList")).width.match(/\d+/)[0]);
 		const itemWidth = Number(getComputedStyle(item).width.match(/\d+/)[0]);
-		item.style.animation = `popin .5s ease ${Math.floor(i / Math.floor(listWidth / itemWidth)) * 50}ms forwards`;
+		item.style.animation = `popin .5s ease ${Math.floor(i / Math.floor(listWidth / itemWidth)) * 50}ms`;
+		item.classList.add("invisible");
+		item.addEventListener("animationend", () => {
+			item.removeAttribute("style");
+			item.classList.remove("invisible");
+		});
 	});
 }
 

@@ -8,10 +8,7 @@
 	padding: .25rem;
 	background: #F9F9F9;
 	overflow-y: auto;
-	border: 1px solid transparent; /* required for border-image to work*/
-	border-image: linear-gradient(to left, rgba(0, 0, 0, .05), transparent) 1 100%;
-	border-width: .5rem;
-	border-right: none;
+	position: relative;
 }
 
 html:not(.fullscreen) #itemList {
@@ -30,8 +27,11 @@ html:not(.fullscreen) #itemList {
 	cursor: pointer;
 	width: 14rem;
 	height: 14rem;
-	opacity: 0;
 	transition: background-color .1s ease;
+}
+
+#itemList>li.invisible {
+	opacity: 0;
 }
 
 @keyframes popin {
