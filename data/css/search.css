@@ -91,7 +91,7 @@ nav>#searchButtons>#refresh {
 	background-image: url("../images/refresh.png");
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-size: 60%;
+	background-size: calc(60% + .33px);
 }
 
 @keyframes loading {

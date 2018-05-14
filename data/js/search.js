@@ -9,6 +9,7 @@ const { app } = electron.remote;
 const fs = require("fs");
 const drivelist = require("drivelist");
 const diskspace = require("diskspace");
+window.path = nodePath;
 
 Object.defineProperty(Array.prototype, "remove", {
 	value: function remove (from, to) {
@@ -95,7 +96,9 @@ async function search (path = `${windowLocation}\\`) {
 		itemList.removeChild(itemList.lastChild);
 	}
 
-	if (windowLocation.slice(0, 6).toLowerCase() === "start:") {
+	if (windowLocation === "") windowLocation = "Start:\\";
+	const parsedPath = nodePath.parse(windowLocation);
+	if (parsedPath.base === "Start:") {
 		input.value = "";
 		spanifySearchbar();
 		drivelist.list((err, drives) => {
@@ -204,6 +207,7 @@ async function search (path = `${windowLocation}\\`) {
 		const itemWidth = Number(getComputedStyle(item).width.match(/\d+/)[0]);
 		item.style.animation = `popin .5s ease ${Math.floor(i / Math.floor(listWidth / itemWidth)) * 50}ms forwards`;
 	});
+	console.log(windowLocation);
 }
 
 input.addEventListener("keyup", event => {
@@ -238,7 +242,8 @@ bindClick("nav #forward", button => {
 bindClick("nav #dirUp", button => {
 	bindAnimation(button, "dirUp");
 	button.addEventListener("click", () => {
-		windowLocation = nodePath.dirname(windowLocation);
+		const parsedPath = nodePath.parse(windowLocation);
+		windowLocation = (windowLocation === parsedPath.root) ? "Start:\\" : parsedPath.dir;
 		search();
 	});
 });
@@ -246,6 +251,5 @@ document.querySelector("nav #refresh").addEventListener("click", event => {
 	search();
 });
 
-input.value = "Start:\\";
-windowLocation = input.value;
+windowLocation = "Start:\\";
 search();
