@@ -7,7 +7,8 @@ const { app, BrowserWindow } = electron;
 app.on("ready", () => {
 	const mainWindow = new BrowserWindow({
 		transparent: true,
-		frame: false
+		frame: false,
+		icon: path.join(__dirname, "assets", "images", "icon.png")
 	});
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, "index.html"),
