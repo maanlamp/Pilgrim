@@ -257,7 +257,7 @@ async function search (path = windowLocation, options = {save: true}) {
 
 input.addEventListener("keyup", event => {
 	event.preventDefault();
-	if (event.keyCode === 13) {
+	if (event.key === "Enter") {
 		search(input.value);
 	}
 });
