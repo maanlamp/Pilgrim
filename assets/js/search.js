@@ -107,6 +107,8 @@ async function search (path = windowLocation, options = {save: true}) {
 	
 	document.querySelector("nav #back").disabled = history.index < 1;
 	document.querySelector("nav #forward").disabled = history.index > history.entries.length - 2;
+
+	renameTab(document.querySelector(".tab.open"));
 	
 	if (path === "") path = "Start:\\";
 	const parsedPath = nodePath.parse(path);

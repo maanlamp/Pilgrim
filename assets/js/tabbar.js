@@ -36,10 +36,14 @@ function titleify (text) {
 	return parsedPath.base || parsedPath.dir;
 }
 
-function createTab () {
-	const tab = document.createElement("LI");
+function renameTab (tab) {
 	tab.dataset.url = windowLocation || "Start:/";
 	tab.textContent = titleify(windowLocation || "Start:/");
+}
+
+function createTab () {
+	const tab = document.createElement("LI");
+	renameTab(tab);
 	tab.classList.add("tab");
 	tabbar.insertBefore(tab, tabbar.lastElementChild);
 	rebuildTabs();
