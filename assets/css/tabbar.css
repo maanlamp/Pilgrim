@@ -31,7 +31,11 @@
 }
 
 #tabbar>.tab:hover,
-#tabbar>.tab:focus,
+#tabbar>.tab:focus {
+	background-color: rgb(var(--windowTitlebarColour));
+	opacity: 1;
+}
+
 #tabbar>.tab.open {
 	background-color: rgb(var(--windowTitlebarColourLight));
 	opacity: 1;
