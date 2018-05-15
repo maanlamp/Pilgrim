@@ -1,9 +1,15 @@
 const tabbar = document.querySelector("#tabbar");
+const path = require("path");
+
+class Tabs {
+	static get all () {
+		return tabbar.querySelectorAll(".tab:not(.addTab)");
+	}
+}
 
 function rebuildTabs () {
-	const someTabs = tabbar.querySelectorAll(".tab:not([tabindex]):not(.addTab)");
-	const allTabs = tabbar.querySelectorAll(".tab");
-	someTabs.forEach((tab, i) => {
+	const allTabsButLast = tabbar.querySelectorAll(".tab:not([tabindex]):not(.addTab)");
+	allTabsButLast.forEach((tab, i) => {
 		tab.title = tab.dataset.url;
 		const temp = tab.textContent;
 		tab.firstChild.remove();
@@ -16,7 +22,7 @@ function rebuildTabs () {
 		[firstLetter, rest].forEach(div => tab.appendChild(div));
 		tab.setAttribute("tabindex", 0);
 		tab.onclick = event => {
-			for (const tab of allTabs) {
+			for (const tab of Tabs.all) {
 				tab.classList.remove("open");
 			}
 			tab.classList.add("open");
@@ -25,12 +31,24 @@ function rebuildTabs () {
 	});
 }
 
-tabbar.querySelector(".addTab").addEventListener("click", event => {
+function titleify (text) {
+	const parsedPath = path.parse(text);
+	return parsedPath.base || parsedPath.dir;
+}
+
+function createTab () {
 	const tab = document.createElement("LI");
-	tab.dataset.url = windowLocation || "Start:\\";
-	tab.textContent = windowLocation || "Start"; //create naming function to filter slashes and get basename or smth
+	tab.dataset.url = windowLocation || "Start:/";
+	tab.textContent = titleify(windowLocation || "Start:/");
 	tab.classList.add("tab");
 	tabbar.insertBefore(tab, tabbar.lastElementChild);
 	rebuildTabs();
+	tab.focus();
 	tab.click();
+}
+
+tabbar.querySelector(".addTab").addEventListener("click", event => {
+	createTab();
 });
+
+createTab();
