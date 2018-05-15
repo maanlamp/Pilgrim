@@ -19,7 +19,8 @@
   "dependencies": {
     "diskspace": "^2.0.0",
     "drivelist": "^6.2.2",
-    "npm": "^6.0.1"
+    "npm": "^6.0.1",
+    "prototype-extensions": "github:maanlamp/prototype-extensions"
   },
   "devDependencies": {
     "electron-rebuild": "^1.7.3"

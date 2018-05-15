@@ -9,9 +9,9 @@ function rebuildTabs () {
 		tab.firstChild.remove();
 		const firstLetter = document.createElement("DIV");
 		firstLetter.classList.add("tabFirstLetter");
-		firstLetter.textContent = temp[0].toUpperCase();
+		firstLetter.textContent = temp[0].toUpper();
 		const rest = document.createElement("DIV");
-		rest.textContent = temp.slice(1).toLowerCase();
+		rest.textContent = temp.slice(1).toLower();
 		rest.classList.add("tabRest");
 		[firstLetter, rest].forEach(div => tab.appendChild(div));
 		tab.setAttribute("tabindex", 0);

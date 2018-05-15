@@ -8,7 +8,9 @@ app.on("ready", () => {
 	const mainWindow = new BrowserWindow({
 		transparent: true,
 		frame: false,
-		icon: path.join(__dirname, "assets", "images", "icon.png")
+		icon: path.join(__dirname, "assets", "images", "icon.png"),
+		width: 1000,
+		height: 640
 	});
 	mainWindow.loadURL(url.format({
 		pathname: path.join(__dirname, "index.html"),

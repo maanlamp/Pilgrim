@@ -14,6 +14,10 @@ const history = {
 	index: -1,
 	entries: []
 };
+const extensions = {
+	arr: require("prototype-extensions/compiled/Array.js"),
+	str: require("prototype-extensions/compiled/String.js")
+}
 
 let folderSVG;
 fs.readFile("./assets/images/icons/directory.svg", (err, data) => {
@@ -21,19 +25,6 @@ fs.readFile("./assets/images/icons/directory.svg", (err, data) => {
 	folderSVG = data;
 });
 
-Object.defineProperty(Array.prototype, "remove", {
-	value: function remove (from, to) {
-		if (!to) to = from + 1;
-		this.splice(from, to);
-		return this;
-	}
-});
-
-Object.defineProperty(Array.prototype, "clone", {
-	value: function clone (from, to) {
-		return this.slice();
-	}
-});
 
 function formatBytes (bytes, bitsOrBytes = "bytes") {
 	bytes = Number(bytes);
@@ -71,7 +62,7 @@ function spanifySearchbar (path = windowLocation, splitOn = /[/\\]/) {
 
 function lookupIcon (path, img) {
 	return new Promise((resolve, reject) => {
-		const ext = nodePath.extname(path).replace(".", "").toLowerCase();
+		const ext = nodePath.extname(path).replace(".", "").toLower();
 		fs.readFile("./assets/json/icons.json", (err, data) => {
 			if (err) reject(err);
 			const json = JSON.parse(data);
@@ -93,6 +84,7 @@ function lookupIcon (path, img) {
 
 let windowLocation = "";
 async function search (path = windowLocation, options = {save: true}) {
+	if (path.lastChar() === ":") path += "/";
 	windowLocation = path;
 	const button = document.querySelector("nav>#searchButtons>#refresh");
 	button.classList.add("loading");
@@ -104,7 +96,7 @@ async function search (path = windowLocation, options = {save: true}) {
 	while (itemList.lastChild) {
 		itemList.removeChild(itemList.lastChild);
 	}
-
+	
 	if (options.save) {
 		history.entries.push({
 			timestamp: Date.now(),
@@ -112,10 +104,10 @@ async function search (path = windowLocation, options = {save: true}) {
 		});
 		history.index = history.entries.length - 1;
 	}
-
+	
 	document.querySelector("nav #back").disabled = history.index < 1;
 	document.querySelector("nav #forward").disabled = history.index > history.entries.length - 2;
-
+	
 	if (path === "") path = "Start:\\";
 	const parsedPath = nodePath.parse(path);
 	if (parsedPath.base === "Start:") {
@@ -182,7 +174,7 @@ async function search (path = windowLocation, options = {save: true}) {
 		});
 		return;
 	}
-
+	
 	if (!fs.existsSync(path)) { //If absolute search doesnt exist, try appending it to current path
 		let temp = "";
 		const spans = searchbar.querySelectorAll("span");
@@ -195,14 +187,14 @@ async function search (path = windowLocation, options = {save: true}) {
 			//Search
 		}
 	}
-
+	
 	input.value = "";
 	spanifySearchbar(path);
-
+	
 	let files = await readDir(path);
 	let items = [];
 	const folders = [];
-
+	
 	for (const file of files) {
 		const fullpath = nodePath.join(path, file);
 		const item = document.createElement("LI");
@@ -236,15 +228,18 @@ async function search (path = windowLocation, options = {save: true}) {
 			item.remove();
 		}
 	}
-
-	[items, folders].forEach(array => array.sort((a, b) => {
-		const aa = a.title.toLowerCase();
-		const bb = b.title.toLowerCase();
-		if (aa === bb) return 0;
-		return -1 + (aa > bb) * 2;
-	}));
+	
+	items = items.reject(element => ["thumbs.db", "ehthumbs.db", "desktop.ini"].includes(element.title));
+	[items, folders].forEach(array => {
+		array.sort((a, b) => {
+			const aa = a.title.toLower();
+			const bb = b.title.toLower();
+			if (aa === bb) return 0;
+			return -1 + (aa > bb) * 2;
+		});
+	});
 	items = folders.concat(items);
-
+	
 	items.forEach((item, i) => {
 		itemList.appendChild(item);
 		const listWidth = Number(getComputedStyle(document.querySelector("#itemList")).width.match(/\d+/)[0]);
