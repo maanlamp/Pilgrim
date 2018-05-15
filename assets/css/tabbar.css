@@ -17,8 +17,8 @@
 #tabbar>.tab {
 	-webkit-app-region: no-drag;
 	cursor: pointer;
-	padding-top: .5rem;
-  padding-left: .5rem;
+	padding: .5rem;
+	padding-bottom: 0;
 	color: white;
 	min-width: 8rem;
 	max-width: 12rem;
