@@ -231,7 +231,7 @@ async function search (path = windowLocation, options = {save: true}) {
 		}
 	}
 	
-	items = items.reject(element => ["thumbs.db", "ehthumbs.db", "desktop.ini"].includes(element.title));
+	items = items.reject(element => ["$recycle.bin", "thumbs.db", "ehthumbs.db", "desktop.ini"].includes(element.title.toLower()));
 	[items, folders].forEach(array => {
 		array.sort((a, b) => {
 			const aa = a.title.toLower();
