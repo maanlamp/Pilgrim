@@ -70,10 +70,7 @@ input.addEventListener("keyup", async event => {
 		startLoadingAnimation();
 
 		const query = new Query(input.value);
-		let path = query.raw;
-		if (!await query.isValid) {
-			path = await query.validPart;
-		}
+		const path = (await query.isValid) ? query.raw : await query.validPart;
 		updateHTMLBreadcrumbs(Query.crumbifyPath(path));
 		
 		const {files, folders} = await getFilesAndFolders(path);
