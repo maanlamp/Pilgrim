@@ -1,3 +1,5 @@
+"use strict"
+
 const itemlist = document.querySelector("#itemList");
 const minmialPercentage = .75;
 const html = document.querySelector("html");

@@ -37,7 +37,11 @@
 					<button id="dirUp" title="Go up one directory"></button>
 				</div>
 				<div id="searchbar">
-					<div id="searchbarSpans"></div>
+					<div id="breadcrumbs">
+						<div id="root"></div>
+						<div id="dir"></div>
+						<div id="base"></div>
+					</div>
 					<input type="text" placeholder="Search...">
 					<button id="searchHistory" title="History"></button>
 				</div>
@@ -50,11 +54,9 @@
 			<ul id="itemList"></ul>
 		</main>
 	</div>
+	<script src="./assets/js/main.js"></script>
 	<script src="./assets/js/titlebar.js"></script>
-	<script src="./assets/js/search.js"></script>
-	<script src="./assets/js/tabbar.js"></script>
 	<script src="./assets/js/scrollbar.js"></script>
-	<script src="./assets/js/quickfind.js"></script>
 	<script src="./assets/js/clickWithEnter.js"></script>
 </body>
 </html>
