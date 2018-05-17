@@ -195,7 +195,7 @@ async function search (path = windowLocation, options = {save: true}) {
 	
 	let files = await readDir(path);
 	let items = [];
-	const folders = [];
+	let folders = [];
 	
 	for (const file of files) {
 		const fullpath = nodePath.join(path, file);
@@ -231,7 +231,14 @@ async function search (path = windowLocation, options = {save: true}) {
 		}
 	}
 	
-	items = items.reject(element => ["$recycle.bin", "thumbs.db", "ehthumbs.db", "desktop.ini"].includes(element.title.toLower()));
+	folders = folders.filter(element => {
+		const title = element.title.toLower();
+		return !title.includes("$");
+	});
+	items = items.filter(element => {
+		const title = element.title.toLower();
+		return !["desktop.ini"].includes(title);
+	});
 	[items, folders].forEach(array => {
 		array.sort((a, b) => {
 			const aa = a.title.toLower();
