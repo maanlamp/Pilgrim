@@ -98,12 +98,15 @@ async function fillItemList (arrayOfArrays) {
 				figure.insertAdjacentHTML("afterbegin", folderImageSVG);
 			} else {
 				const image = figure.appendChild(document.createElement("IMG"));
-				promises.push(new Promise((resolve, reject) => {
-					image.src = "./inspirationaise/windows_explorer_concept_-_800x600.jpg";
-					image.addEventListener("load", () => {
-						resolve();
-					});
-				}));
+				if (item.mimeType && item.mimeType.includes("image")) {
+					figure.classList.add("containsImage");
+					promises.push(new Promise((resolve, reject) => {
+						image.src = item.fullPath;
+						image.addEventListener("load", () => {
+							resolve();
+						});
+					}));
+				}
 			}
 			const name = li.appendChild(document.createElement("H2"));
 			name.textContent = item.name;

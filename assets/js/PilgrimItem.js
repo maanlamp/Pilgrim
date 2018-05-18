@@ -3,6 +3,7 @@
 const { promisify } = require("util");
 const fileStats = promisify(fs.stat);
 const nodePath = require("path");
+const { lookup } = require("mime-types");
 
 class PilgrimItem {
 	constructor (path) {
@@ -10,6 +11,7 @@ class PilgrimItem {
 		this.fullPath = null;
 		this.stats = null;
 		this.isDirectory = null;
+		this.mimeType = null;
 	}
 
 	static buildFrom (path) {
@@ -31,6 +33,7 @@ class PilgrimFile extends PilgrimItem {
 		this.fullPath = path;
 		this.stats = stats;
 		this.isDirectory = stats.isDirectory();
+		this.mimeType = lookup(this.fullPath);
 	}
 }
 
@@ -41,6 +44,7 @@ class PilgrimFolder extends PilgrimItem {
 		this.fullPath = path;
 		this.stats = stats;
 		this.isDirectory = stats.isDirectory();
+		this.mimeType = lookup(this.fullPath);
 	}
 }
 
