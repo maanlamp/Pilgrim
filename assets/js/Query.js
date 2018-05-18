@@ -1,5 +1,7 @@
 "use strict"
 
+const nodePath = require("path");
+
 function checkExistenceOf (path) {
 	return new Promise((resolve, reject) => {
 		fs.access(path, err => {
@@ -14,7 +16,15 @@ function checkExistenceOf (path) {
 
 exports.Query = class Query {
 	constructor (path) {
-		this.raw = path;
+		this.raw = Query.normalisePath(path);
+	}
+
+	static normalisePath (path, delimiter = "/") {
+		return nodePath.normalize(
+			(path.lastChar() === ":")
+			? `${path}${delimiter}`
+			: path
+		).replace(/[/\\]+/g, delimiter);
 	}
 
 	static crumbifyPath (path, delimiter = /[/\\]/) {
@@ -22,7 +32,7 @@ exports.Query = class Query {
 	}
 	
 	get isValid () {
-		return new Promise(async (resolve, rejcet) => {
+		return new Promise(async (resolve, reject) => {
 			resolve(await checkExistenceOf(this.raw));
 		});
 	}
@@ -36,7 +46,7 @@ exports.Query = class Query {
 				if (! await checkExistenceOf(tempPath)) break;
 				validChunks.push(crumb);
 			}
-			resolve(validChunks.join("/"));
+			resolve(`${validChunks.join("/")}/`);
 		});
 	}
 }
