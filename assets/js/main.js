@@ -41,14 +41,23 @@ function updateHTMLBreadcrumbs (crumbs) {
 	const baseCrumb = document.querySelector("#breadcrumbs>#base");
 	clearHTMLBreadcrumbs();
 	rootCrumb.textContent = crumbs.first();
-	if (crumbs.length > 1) baseCrumb.textContent = crumbs.last();
 	if (crumbs.length > 2) {
-		crumbs.slice(1, -1).forEach(crumb => {
+		crumbs.slice(1, -1).forEach((crumb, i) => {
 			const div = document.createElement("DIV");
 			div.textContent = crumb;
+			div.classList.add("crumb");
 			dirCrumbs.appendChild(div);
+
 		});
 	}
+	if (crumbs.length > 1) baseCrumb.textContent = crumbs.last();
+	const allCrumbs = document.querySelectorAll("#breadcrumbs .crumb");
+	allCrumbs.forEach((crumb, i) => {
+		crumb.dataset.url = crumbs.slice(0, i + 1).join("/");
+		crumb.addEventListener("click", () => {
+			search(crumb.dataset.url);
+		});
+	});
 }
 
 async function getFilesAndFolders (path) {
@@ -87,7 +96,8 @@ function clearItemList () {
 	}
 }
 
-async function fillItemList (arrayOfArrays) {
+async function updateItemList (arrayOfArrays) {
+	clearItemList();
 	const folderImageSVG = (await readFile("./assets/images/icons/directory.svg", "utf8")).replace(/[\r\n\t\f\v]/g, "");
 	const promises = [];
 	arrayOfArrays.forEach(array => {
@@ -123,7 +133,7 @@ async function fillItemList (arrayOfArrays) {
 			*/
 			description.textContent = (item.isDirectory) ? "Folder" : `${item.stats.size} bytes`;
 			li.addEventListener("click", event => {
-				//search
+				search(item.fullPath);
 			});
 			itemList.appendChild(li);
 		});
@@ -131,23 +141,24 @@ async function fillItemList (arrayOfArrays) {
 	return Promise.all(promises);
 }
 
+async function search (string) {
+	startLoadingAnimation();
+
+	const query = new Query(string);
+	const path = (await query.isValid) ? query.raw : await query.validPart;
+	updateHTMLBreadcrumbs(Query.crumbifyPath(path));
+	input.value = path;
+	
+	const { files, folders } = await walk(path);
+	await updateItemList([folders, files]);
+
+	stopLoadingAnimation();
+}
+
 const input = document.querySelector("#searchbar>input");
 input.addEventListener("keyup", async event => {
 	if (event.key === "Enter") { //Search
-		startLoadingAnimation();
-
-		const query = new Query(input.value);
-		const path = (await query.isValid) ? query.raw : await query.validPart;
-
-		updateHTMLBreadcrumbs(Query.crumbifyPath(path));
-
-		const { files, folders } = await walk(path);
-		input.value = path;
-
-		clearItemList();
-		await fillItemList([folders, files]);
-
-		stopLoadingAnimation();
+		search(input.value);
 	} else { //Path IntelliSense
 		//
 	}
