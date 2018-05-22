@@ -11,16 +11,36 @@ const prototypeExtensions = {
 }
 const { Query } = require("./assets/js/Query.js");
 const { PilgrimItem } = require("./assets/js/PilgrimItem.js");
+const electron = require("electron");
+const { app } = electron.remote;
+
+function setupLoadingAnimation () {
+	const refreshButton = document.querySelector("nav>#searchButtons>#refresh");
+	refreshButton.addEventListener("animationiteration", () => {
+		setTimeout(() => {
+			if (refreshButton.className === "end") {
+				refreshButton.classList.remove("end");
+			}
+		}, 1000);
+		if (refreshButton.classList.contains("end")) {
+			refreshButton.classList.remove("loading");
+		}
+		if (refreshButton.classList.contains("start")) {
+			refreshButton.classList.remove("start");
+			refreshButton.classList.add("loading");
+		}
+	});
+}
 
 function startLoadingAnimation () {
 	const refreshButton = document.querySelector("nav>#searchButtons>#refresh");
-	refreshButton.classList.add("loading");
+	refreshButton.classList.add("start");
 	refreshButton.title = "Loading...";
 }
 
 function stopLoadingAnimation () {
 	const refreshButton = document.querySelector("nav>#searchButtons>#refresh");
-	refreshButton.classList.remove("loading");
+	refreshButton.classList.add("end");
 	refreshButton.title = "Refresh";
 }
 
@@ -96,6 +116,15 @@ function clearItemList () {
 	}
 }
 
+function lookupIcon (path) {
+	return new Promise((resolve, reject) => {
+		app.getFileIcon(path, (err, icon) => {
+			if (err) reject(err);
+			resolve(icon.toDataURL());
+		});
+	});
+}
+
 async function updateItemList (arrayOfArrays) {
 	clearItemList();
 	const folderImageSVG = (await readFile("./assets/images/icons/directory.svg", "utf8")).replace(/[\r\n\t\f\v]/g, "");
@@ -116,26 +145,35 @@ async function updateItemList (arrayOfArrays) {
 							resolve();
 						});
 					}));
+				} else {
+					promises.push(new Promise(async (resolve, reject) => {
+						image.src = await lookupIcon(item.fullPath);
+						image.addEventListener("load", () => {
+							resolve();
+						});
+					}));
 				}
 			}
 			const name = li.appendChild(document.createElement("H2"));
 			name.textContent = item.name;
 			const description = li.appendChild(document.createElement("P"));
-			/*
-			if (item.isDirectory) {
-				const subItems = await search(item.fullPath);
-				console.log(item.fullPath);
-				const subItemCount = subItems.folders.length + subItems.files.length;
-				description.textContent = (subItemCount > 0) ? `${subItemCount} subitems` : "Empty folder";
-			} else {
-				description.textContent = `${item.stats.size} bytes`;
-			}
-			*/
-			description.textContent = (item.isDirectory) ? "Folder" : `${item.stats.size} bytes`;
-			li.addEventListener("click", event => {
-				search(item.fullPath);
-			});
+			description.textContent = "Calculating size...";
 			itemList.appendChild(li);
+			try {
+				if (item.isDirectory) {
+					const { files, folders } = await walk(item.fullPath);
+					const fileCount = folders.length + files.length;
+					description.textContent = `${(fileCount > 0) ? `${fileCount} subitem` : "Empty folder"}${(fileCount > 1) ? "s" : ""}`;
+				} else {
+					description.textContent = `${item.stats.size} bytes`;
+				}
+				li.addEventListener("click", event => {
+					search(item.fullPath);
+				});
+			} catch (err) {
+				li.classList.add("errOccured");
+				description.textContent = `Error code: ${err.code}`;
+			}
 		});
 	});
 	return Promise.all(promises);
@@ -155,6 +193,7 @@ async function search (string) {
 	stopLoadingAnimation();
 }
 
+setupLoadingAnimation();
 const input = document.querySelector("#searchbar>input");
 input.addEventListener("keyup", async event => {
 	if (event.key === "Enter") { //Search

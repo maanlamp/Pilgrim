@@ -1,6 +1,5 @@
 "use strict"
 
-const electron = require("electron");
 const { remote } = electron;
 const { BrowserWindow } = remote;
 const display = electron.screen;

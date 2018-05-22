@@ -104,16 +104,27 @@ nav>#searchButtons>#refresh {
 	}
 }
 
+nav>#searchButtons>#refresh.start {
+	animation: loading 1s ease-in infinite;
+	background-image: url("../images/loading.png");
+	border-radius: 50%;
+}
+
 nav>#searchButtons>#refresh.loading {
 	animation: loading .5s linear infinite;
 	background-image: url("../images/loading.png");
 	border-radius: 50%;
 }
 
+nav>#searchButtons>#refresh.end:not(.start):not(.loading) {
+	animation: loading 1s ease-out infinite;
+	background-image: url("../images/loading.png");
+}
+
 @keyframes dirUp {
 	0% {
 		background-size: 20% 60%;
-	}40% {
+	} 40% {
 		background-position-y: -1rem;
 	} 45% {
 		opacity: 0;	
