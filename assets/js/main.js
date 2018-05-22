@@ -158,6 +158,7 @@ async function updateItemList (arrayOfArrays) {
 			name.textContent = item.name;
 			const description = li.appendChild(document.createElement("P"));
 			description.textContent = "Calculating size...";
+			li.setAttribute("tabindex", "0");
 			itemList.appendChild(li);
 			try {
 				if (item.isDirectory) {
