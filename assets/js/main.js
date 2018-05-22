@@ -74,9 +74,9 @@ function updateHTMLBreadcrumbs (crumbs) {
 	const allCrumbs = document.querySelectorAll("#breadcrumbs .crumb");
 	allCrumbs.forEach((crumb, i) => {
 		crumb.dataset.url = crumbs.slice(0, i + 1).join("/");
-		crumb.addEventListener("click", () => {
+		crumb.onclick = () => {
 			search(crumb.dataset.url);
-		});
+		}
 	});
 }
 
