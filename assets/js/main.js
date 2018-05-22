@@ -173,7 +173,7 @@ async function updateItemList (arrayOfArrays) {
 				});
 			} catch (err) {
 				li.classList.add("errOccured");
-				description.textContent = `Error code: ${err.code}`;
+				description.textContent = err.code;
 			}
 		});
 	});
