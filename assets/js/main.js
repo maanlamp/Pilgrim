@@ -138,7 +138,7 @@ async function updateItemList (arrayOfArrays) {
 			} else {
 				const image = figure.appendChild(document.createElement("IMG"));
 				if (item.mimeType && item.mimeType.includes("image")) {
-					figure.classList.add("containsImage");
+					li.classList.add("containsImage");
 					promises.push(new Promise((resolve, reject) => {
 						image.src = item.fullPath;
 						image.addEventListener("load", () => {
@@ -156,13 +156,17 @@ async function updateItemList (arrayOfArrays) {
 			}
 			const name = li.appendChild(document.createElement("H2"));
 			name.textContent = item.name;
+			li.title = item.name;
 			const description = li.appendChild(document.createElement("P"));
 			description.textContent = "Calculating size...";
 			li.setAttribute("tabindex", "0");
 			itemList.appendChild(li);
 			try {
+				//OFFLOAD THIS TO A WORKED BC IT'S SLOW AS FUQQ
 				if (item.isDirectory) {
-					const { files, folders } = await walk(item.fullPath);
+					const filesAndFolders = walk(item.fullPath);
+					promises.push(filesAndFolders);
+					const { files, folders } = await filesAndFolders;
 					const fileCount = folders.length + files.length;
 					description.textContent = `${(fileCount > 0) ? `${fileCount} subitem` : "Empty folder"}${(fileCount > 1) ? "s" : ""}`;
 					li.addEventListener("click", event => {
@@ -181,24 +185,21 @@ async function updateItemList (arrayOfArrays) {
 }
 
 async function search (string) {
-	startLoadingAnimation();
-
 	const query = new Query(string);
 	const path = (await query.isValid) ? query.raw : await query.validPart;
 	updateHTMLBreadcrumbs(Query.crumbifyPath(path));
 	input.value = path;
-	
 	const { files, folders } = await walk(path);
 	await updateItemList([folders, files]);
-
-	stopLoadingAnimation();
 }
 
 setupLoadingAnimation();
 const input = document.querySelector("#searchbar>input");
 input.addEventListener("keyup", async event => {
 	if (event.key === "Enter") { //Search
+		startLoadingAnimation();
 		search(input.value);
+		stopLoadingAnimation();
 	} else { //Path IntelliSense
 		//
 	}
