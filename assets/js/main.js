@@ -165,12 +165,12 @@ async function updateItemList (arrayOfArrays) {
 					const { files, folders } = await walk(item.fullPath);
 					const fileCount = folders.length + files.length;
 					description.textContent = `${(fileCount > 0) ? `${fileCount} subitem` : "Empty folder"}${(fileCount > 1) ? "s" : ""}`;
+					li.addEventListener("click", event => {
+						search(item.fullPath);
+					});
 				} else {
 					description.textContent = `${item.stats.size} bytes`;
 				}
-				li.addEventListener("click", event => {
-					search(item.fullPath);
-				});
 			} catch (err) {
 				li.classList.add("errOccured");
 				description.textContent = err.code;

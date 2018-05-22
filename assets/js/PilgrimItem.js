@@ -1,7 +1,7 @@
 "use strict";
 
 const { promisify } = require("util");
-const fileStats = promisify(fs.lstat);
+const fileStats = promisify(fs.stat);
 const nodePath = require("path");
 const { lookup } = require("mime-types");
 
