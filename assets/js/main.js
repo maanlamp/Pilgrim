@@ -2,6 +2,7 @@
 
 //requires
 const fs = require("fs");
+const nodePath = require("path");
 const { promisify } = require("util");
 const readDir = promisify(fs.readdir);
 const readFile = promisify(fs.readFile);
@@ -187,6 +188,7 @@ async function updateItemList (arrayOfArrays) {
 async function search (string) {
 	const query = new Query(string);
 	const path = (await query.isValid) ? query.raw : await query.validPart;
+	if (!path) return;
 	updateHTMLBreadcrumbs(Query.crumbifyPath(path));
 	input.value = path;
 	const { files, folders } = await walk(path);

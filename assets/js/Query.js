@@ -33,7 +33,7 @@ exports.Query = class Query {
 	
 	get isValid () {
 		return new Promise(async (resolve, reject) => {
-			resolve(await checkExistenceOf(this.raw));
+			resolve((nodePath.isAbsolute(this.raw)) ? await checkExistenceOf(this.raw) : false);
 		});
 	}
 
@@ -43,10 +43,10 @@ exports.Query = class Query {
 			const breadcrumbs = Query.crumbifyPath(this.raw);
 			for (const crumb of breadcrumbs) {
 				const tempPath = validChunks.concat(crumb).join("/");
-				if (! await checkExistenceOf(tempPath)) break;
-				validChunks.push(crumb);
+				if (await checkExistenceOf(tempPath)) validChunks.push(crumb);
 			}
-			resolve(`${validChunks.join("/")}/`);
+			const path = validChunks.join("/");
+			resolve((nodePath.isAbsolute(path)) ? path : null);
 		});
 	}
 }
