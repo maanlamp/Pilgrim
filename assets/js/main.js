@@ -2,18 +2,16 @@
 
 //requires
 const fs = require("fs");
-const nodePath = require("path");
 const { promisify } = require("util");
 const readDir = promisify(fs.readdir);
 const readFile = promisify(fs.readFile);
-const prototypeExtensions = {
-	array: require("prototype-extensions/compiled/Array.js"),
-	string: require("prototype-extensions/compiled/String.js")
-}
+require("prototype-extensions/compiled/Array.js");
+require("prototype-extensions/compiled/String.js")
 const { Query } = require("./assets/js/Query.js");
 const { PilgrimItem } = require("./assets/js/PilgrimItem.js");
 const electron = require("electron");
 const { app } = electron.remote;
+const { readLines } = require("./assets/js/readLines.js");
 
 function setupLoadingAnimation () {
 	const refreshButton = document.querySelector("nav>#searchButtons>#refresh");
@@ -134,20 +132,34 @@ async function updateItemList (arrayOfArrays) {
 		array.forEach(async (item, i) => {
 			const li = document.createElement("LI");
 			const figure = li.appendChild(document.createElement("FIGURE"));
+			if (item.mimeType) {
+				li.classList.add(item.mimeType);
+			}
 			if (item.isDirectory) {
 				figure.insertAdjacentHTML("afterbegin", folderImageSVG);
 			} else {
-				const image = figure.appendChild(document.createElement("IMG"));
-				if (item.mimeType && item.mimeType.includes("image")) {
-					li.classList.add("containsImage");
-					promises.push(new Promise((resolve, reject) => {
+				if (li.className.match("image")) {
+					const image = figure.appendChild(document.createElement("IMG"));
+					promises.push(new Promise(resolve => {
 						image.src = item.fullPath;
 						image.addEventListener("load", () => {
 							resolve();
 						});
 					}));
+				} else if (li.className.match(/.*?text.*?|.*?json.*?|.*?javascript.*?/)) {
+					promises.push(new Promise(async resolve => {
+						const pre = document.createElement("PRE");
+						const code = document.createElement("CODE");
+						code.classList.add(`language-${li.className.match(/\w+\/(\w+)/)[1]}`);
+						figure.appendChild(pre);
+						pre.appendChild(code);
+						code.textContent = (await readLines(item.fullPath, 25)).replace(/\t/g, "  ");
+						window.prism.highlightElement(code);
+						resolve();
+					}));
 				} else {
-					promises.push(new Promise(async (resolve, reject) => {
+					const image = figure.appendChild(document.createElement("IMG"));
+					promises.push(new Promise(async resolve => {
 						image.src = await lookupIcon(item.fullPath);
 						image.addEventListener("load", () => {
 							resolve();
@@ -163,7 +175,7 @@ async function updateItemList (arrayOfArrays) {
 			li.setAttribute("tabindex", "0");
 			itemList.appendChild(li);
 			try {
-				//OFFLOAD THIS TO A WORKED BC IT'S SLOW AS FUQQ
+				//OFFLOAD THIS TO A WORKER BC IT'S SLOW AS FUQQ
 				if (item.isDirectory) {
 					const filesAndFolders = walk(item.fullPath);
 					promises.push(filesAndFolders);
@@ -205,4 +217,12 @@ input.addEventListener("keyup", async event => {
 	} else { //Path IntelliSense
 		//
 	}
+});
+
+const appContainer = document.querySelector("#appContainer");
+window.addEventListener("focus", () => {
+	appContainer.classList.remove("blur");
+});
+window.addEventListener("blur", () => {
+	appContainer.classList.add("blur");
 });

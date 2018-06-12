@@ -89,7 +89,7 @@ html:not(.fullscreen) #itemList {
 	height: 4rem;
 }
 
-#itemList>li.containsImage>figure {
+#itemList>li[class*="image"]>figure {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -99,8 +99,8 @@ html:not(.fullscreen) #itemList {
 	transition: width .2s ease, height .2s ease;
 }
 
-#itemList>li.containsImage:hover>figure,
-#itemList>li.containsImage:focus>figure {
+#itemList>li[class*="image"]:hover>figure,
+#itemList>li[class*="image"]:focus>figure {
 	background: none;
 	overflow: unset;
 	z-index: 999;
@@ -111,21 +111,21 @@ html:not(.fullscreen) #itemList {
 	top: 0;
 }
 
-#itemList>li.containsImage h2,
-#itemList>li.containsImage p {
+#itemList>li[class*="image"] h2,
+#itemList>li[class*="image"] p {
 	transition: filter .33s ease;
 	z-index: 0;
 }
 
-#itemList>li.containsImage:hover h2,
-#itemList>li.containsImage:focus h2,
-#itemList>li.containsImage:hover p,
-#itemList>li.containsImage:focus p {
+#itemList>li[class*="image"]:hover h2,
+#itemList>li[class*="image"]:focus h2,
+#itemList>li[class*="image"]:hover p,
+#itemList>li[class*="image"]:focus p {
 	filter: blur(4px);
 }
 
-#itemList>li.containsImage:hover img,
-#itemList>li.containsImage:focus img {
+#itemList>li[class*="image"]:hover img,
+#itemList>li[class*="image"]:focus img {
 	max-width: 100%;
 }
 
@@ -147,6 +147,42 @@ html:not(.fullscreen) #itemList {
 
 #itemList>li:hover>figure>svg>path:last-of-type {
 	transform: rotateX(50deg);
+}
+
+#itemList>li[class*="text"]>figure,
+#itemList>li[class*="application"]>figure {
+	transition: all .2s ease, padding-left 0s linear, padding-right 0s linear;
+}
+
+#itemList>li[class*="text"]>figure>pre,
+#itemList>li[class*="application"]>figure>pre {
+	font-size: 6px;
+	line-height: 1.1em;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: .25rem;
+}
+
+#itemList>li[class*="text"]:hover>figure,
+#itemList>li[class*="application"]:hover>figure {
+	overflow: unset;
+	z-index: 999;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#itemList>li[class*="text"]>*:not(figure),
+#itemList>li[class*="application"]>*:not(figure) {
+	transition: filter .2s ease;
+}
+
+#itemList>li[class*="text"]:hover>*:not(figure),
+#itemList>li[class*="application"]:hover>*:not(figure) {
+	filter: blur(8px) opacity(0);
 }
 
 #itemList::-webkit-scrollbar {

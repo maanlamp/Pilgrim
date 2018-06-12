@@ -7,3 +7,11 @@
 #appContainer:not(.fullscreen) #viewport {
 	border-radius: 0 0 var(--windowBorderRadius) var(--windowBorderRadius);
 }
+
+#appContainer {
+	transition: filter .5s ease;
+}
+
+#appContainer.blur {
+	filter: blur(2px);
+}

@@ -1,0 +1,169 @@
+/* PrismJS 1.14.0
+https://prismjs.com/download.html#themes=prism-dark&languages=markup+css+clike+javascript+markup-templating+json+lua+markdown+php+typescript+sass+scss&plugins=line-numbers+normalize-whitespace */
+/**
+ * prism.js Dark theme for JavaScript, CSS and HTML
+ * Based on the slides of the talk “/Reg(exp){2}lained/”
+ * @author Lea Verou
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: white;
+	background: none;
+	font-family: "Fira Code", monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+@media print {
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+pre[class*="language-"],
+:not(pre) > code[class*="language-"] {
+	background: #222222;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	margin: .5em 0;
+	overflow: auto;
+	box-shadow: 1px 1px .5em black inset;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	box-shadow: 1px 1px .3em -.1em black inset;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #61617C;
+}
+
+.token.punctuation {
+	opacity: .75;
+}
+
+.namespace {
+	opacity: .75;
+}
+
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol {
+	color: #AE81FF;
+}
+
+.token.selector {
+	color: #A6E22E;
+}
+
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.language-css .token.string,
+.style .token.string,
+.token.inserted {
+	color: #E0DA38;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.token.variable {
+	color: #F40070;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.property,
+.token.keyword {
+	color: #52E3F6;
+}
+
+.token.regex,
+.token.important {
+	color: #E0DA38;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+.token.deleted {
+	color: red;
+}
+
+pre[class*="language-"].line-numbers {
+	position: relative;
+	padding-left: 3.8em;
+	counter-reset: linenumber;
+}
+
+pre[class*="language-"].line-numbers > code {
+	position: relative;
+	white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+	position: absolute;
+	pointer-events: none;
+	top: 0;
+	font-size: 100%;
+	left: -3.8em;
+	width: 3em; /* works for line-numbers below 1000 lines */
+	letter-spacing: -1px;
+	border-right: 1px solid #999;
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+}
+
+	.line-numbers-rows > span {
+		pointer-events: none;
+		display: block;
+		counter-increment: linenumber;
+	}
+
+		.line-numbers-rows > span:before {
+			content: counter(linenumber);
+			color: #999;
+			display: block;
+			padding-right: 0.8em;
+			text-align: right;
+		}
+
