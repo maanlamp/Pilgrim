@@ -12,6 +12,8 @@ const electron = require("electron");
 const { app } = electron.remote;
 const { readLines } = require("./assets/js/readLines.js");
 
+const MAX_PREVIEW_LINES = 25;
+
 function setupLoadingAnimation () {
 	const refreshButton = document.querySelector("nav>#searchButtons>#refresh");
 	refreshButton.addEventListener("animationiteration", () => {
@@ -160,8 +162,9 @@ async function updateItemList (arrayOfArrays) {
 						code.classList.add(`language-${li.className.match(/\w+\/(\w+)/)[1]}`);
 						figure.appendChild(pre);
 						pre.appendChild(code);
-						const { lines } = await readLines(item.fullPath, 25);
-						code.textContent = lines.replace(/\t/g, "  ");
+						const { lines } = await readLines(item.fullPath, MAX_PREVIEW_LINES);
+						code.textContent = lines;
+						pre.classList.add("line-numbers");
 						window.prism.highlightElement(code);
 						resolve();
 					}));

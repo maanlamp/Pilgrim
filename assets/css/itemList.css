@@ -162,20 +162,26 @@ html:not(.fullscreen) #itemList {
 	line-height: 1.1em;
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
+	overflow: auto;
 	border-radius: .25rem;
+}
+
+#itemList>li[class*="text"]>figure>pre::-webkit-scrollbar,
+#itemList>li[class*="json"]>figure>pre::-webkit-scrollbar,
+#itemList>li[class*="javascript"]>figure>pre::-webkit-scrollbar {
+	display: none;
 }
 
 #itemList>li[class*="text"]:hover>figure,
 #itemList>li[class*="json"]:hover>figure,
 #itemList>li[class*="javascript"]:hover>figure {
-	overflow: unset;
 	z-index: 999;
 	position: absolute;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
+	background: #222222;
 }
 
 #itemList>li[class*="text"]>*:not(figure),
