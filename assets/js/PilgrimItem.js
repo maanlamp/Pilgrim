@@ -44,7 +44,6 @@ class PilgrimFolder extends PilgrimItem {
 		this.fullPath = path;
 		this.stats = stats;
 		this.isDirectory = stats.isDirectory();
-		this.mimeType = lookup(this.fullPath);
 	}
 }
 

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/maanlamp/filebrowser#readme",
   "dependencies": {
+    "chardet": "^0.5.0",
     "diskspace": "^2.0.0",
     "drivelist": "^6.2.2",
     "mime-types": "^2.1.18",

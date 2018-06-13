@@ -1,34 +1,51 @@
 const fs = require("fs");
+const chardet = require("chardet");
 
 function readLines (file, nLines, cb) {
-	const stream = fs.createReadStream(file, "utf8");
-	const chunks = [];
-	
 	return new Promise((resolve, reject) => {
-		stream.on("error", error => {
-			reject(err);
-		});
+		const encoding = chardet.detectFileSync(file, { sampleSize: 1024 });
+		let stream;
+		try {
+			stream = fs.createReadStream(file, encoding);
+		} catch (err) {
+			try {
+				stream = fs.createReadStream(file, "utf-8");
+			} catch (err) {
+				reject(err);
+			}
+		}
+		const chunks = [];
 	
+		stream.on("error", error => reject(error));
 		stream.on("end", () => {
-			resolve(chunks.join());
+			const txt = chunks.join();
+			resolve({
+				lines: txt,
+				encoding: encoding
+			});
 		});
-	
 		stream.on("data", data => {
 			chunks.push(data);
 			const lines = chunks.reduce((lines, chunk) => lines + chunk.split("\n").length, 0);
 			if (lines >= nLines) {
+				stream.destroy();
+				const txt = chunks.join();
 				if (lines > nLines) {
-					stream.destroy();
-					const txt = chunks.join();
 					const len = txt.length;
 					let i = 0;
 					while (nLines-- && ++i < len) {
 						i = txt.indexOf("\n", i);
 						if (i < 0) break;
 					}
-					resolve(txt.slice(0, i));
+					resolve({
+						lines: txt.slice(0, i),
+						encoding: encoding
+					});
 				} else {
-					resolve(txt);
+					resolve({
+						lines: txt,
+						encoding: encoding
+					});
 				}
 			}
 		});

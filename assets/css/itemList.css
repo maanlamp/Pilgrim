@@ -150,12 +150,14 @@ html:not(.fullscreen) #itemList {
 }
 
 #itemList>li[class*="text"]>figure,
-#itemList>li[class*="application"]>figure {
+#itemList>li[class*="json"]>figure,
+#itemList>li[class*="javascript"]>figure {
 	transition: all .2s ease, padding-left 0s linear, padding-right 0s linear;
 }
 
 #itemList>li[class*="text"]>figure>pre,
-#itemList>li[class*="application"]>figure>pre {
+#itemList>li[class*="json"]>figure>pre,
+#itemList>li[class*="javascript"]>figure>pre {
 	font-size: 6px;
 	line-height: 1.1em;
 	width: 100%;
@@ -165,7 +167,8 @@ html:not(.fullscreen) #itemList {
 }
 
 #itemList>li[class*="text"]:hover>figure,
-#itemList>li[class*="application"]:hover>figure {
+#itemList>li[class*="json"]:hover>figure,
+#itemList>li[class*="javascript"]:hover>figure {
 	overflow: unset;
 	z-index: 999;
 	position: absolute;
@@ -176,12 +179,14 @@ html:not(.fullscreen) #itemList {
 }
 
 #itemList>li[class*="text"]>*:not(figure),
-#itemList>li[class*="application"]>*:not(figure) {
+#itemList>li[class*="json"]>*:not(figure),
+#itemList>li[class*="javascript"]>*:not(figure) {
 	transition: filter .2s ease;
 }
 
 #itemList>li[class*="text"]:hover>*:not(figure),
-#itemList>li[class*="application"]:hover>*:not(figure) {
+#itemList>li[class*="json"]:hover>*:not(figure),
+#itemList>li[class*="javascript"]:hover>*:not(figure) {
 	filter: blur(8px) opacity(0);
 }
 

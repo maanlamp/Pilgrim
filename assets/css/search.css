@@ -121,6 +121,24 @@ nav>#searchButtons>#refresh.end:not(.start):not(.loading) {
 	background-image: url("../images/loading.png");
 }
 
+@keyframes error {
+	10% {
+		transform: rotate(-45deg);
+	} 30% {
+		transform: rotate(45deg);
+	} 70% {
+		transform: rotate(-25deg);
+	} 90% {
+		transform: rotate(25deg);
+	}
+}
+
+nav>#searchButtons>#refresh.error {
+	animation: error 1s ease infinite;
+	background-image: url("../images/error.png");
+	border-radius: 50%;
+}
+
 @keyframes dirUp {
 	0% {
 		background-size: 20% 60%;
