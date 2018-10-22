@@ -21,7 +21,7 @@
     "diskspace": "^2.0.0",
     "drivelist": "^6.2.2",
     "mime-types": "^2.1.18",
-    "npm": "^6.0.1",
+    "npm": "^6.1.0",
     "prototype-extensions": "github:maanlamp/prototype-extensions"
   },
   "devDependencies": {
