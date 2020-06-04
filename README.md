@@ -1,4 +1,4 @@
-# filebrowser
+# Pilgrim
 
 ![An animation of the filebrowser being used](./demo.gif)
 
